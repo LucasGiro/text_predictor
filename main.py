@@ -19,6 +19,18 @@ for i in range(len(palabras)):
 
 ##Primera etapa
         
+def palabra_con_mas_apariciones(palabras: set, map_palabras: dict) -> str:
+
+    resultado = ("", 0)
+
+    for p in palabras:
+        apariciones = len(map_palabras[p])
+        if apariciones > resultado[1]:
+            resultado = (p, apariciones)
+
+    return resultado[0]        
+
+        
 def es_prediccion_derecha_valida(indice_palabra_base: int, indice_palabra_predecida: int, map_indices: dict) -> bool:
     
     i = indice_palabra_base + 1
@@ -99,7 +111,7 @@ def backward(map_palabras: dict, map_indices: dict, palabras: list, indice_prede
 
     return predicciones
 
-def forward(map_palabras: dict, map_indices: dict, palabras: list, indice_predecir: int, n_palabras: int, predicciones: set) -> set:
+def forward(map_palabras: dict, map_indices: dict, palabras: list, indice_predecir: int, predicciones: set) -> set:
     se_cumplen_condiciones = True
     i = indice_predecir
     distancia = 1
@@ -111,35 +123,30 @@ def forward(map_palabras: dict, map_indices: dict, palabras: list, indice_predec
         if palabras[i+1] in map_palabras:
             pre_predicciones = get_predicciones_izquierda(palabras[i+1], distancia, map_palabras, map_indices)
             
-        interseccion = predicciones & pre_predicciones      
+        interseccion = predicciones & pre_predicciones
+
+        if predicciones == set():
+            predicciones = pre_predicciones      
 
         if len((interseccion)) == 1:
             predicciones = interseccion
             se_cumplen_condiciones = False    
         elif interseccion != set():
-            predicciones = interseccion      
-
+            predicciones = interseccion
+              
         distancia += 1
         i += 1
 
     return predicciones
 
-a_predecir = "el _ antes del amor tal vez se parezca a este rayo de sol"
+a_predecir = "te _ fumabas unos chinos en madrid"
 
 _palabras = a_predecir.split(" ")
 indice_predecir = _palabras.index("_")                
 
 predicciones = backward(map_palabras, map_indices, _palabras, indice_predecir, n_palabras)
-predicciones = forward(map_palabras, map_indices, _palabras, indice_predecir, n_palabras, predicciones)
+predicciones = forward(map_palabras, map_indices, _palabras, indice_predecir, predicciones)
 
-print(predicciones)
-
-a_predecir = "y cuando me pierdo en la ciudad vos ya sabes comprender es solo un rato no _"
-
-_palabras = a_predecir.split(" ")
-indice_predecir = _palabras.index("_")
-
-predicciones = backward(map_palabras, map_indices, _palabras, indice_predecir, n_palabras)
-predicciones = forward(map_palabras, map_indices, _palabras, indice_predecir, n_palabras, predicciones)
+predicciones = palabra_con_mas_apariciones(predicciones, map_palabras)
 
 print(predicciones)
