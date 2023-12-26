@@ -17,12 +17,6 @@ for i in range(len(palabras)):
     else:
         map_palabras[palabras[i]] = [i] 
 
-
-a_predecir = "me hice fuerte ahi donde nunca vi nadie puede decirme quien _"
-
-_palabras = a_predecir.split(" ")
-indice_predecir = _palabras.index("_")
-
 ##Primera etapa
 
 def get_predicciones_derecha(palabra: str, distancia: int, map_palabras: dict, map_indices: dict, n_palabras: int) -> set:
@@ -46,24 +40,34 @@ def backward(map_palabras: dict, map_indices: dict, palabras: list, indice_prede
         if palabras[i-1] in map_palabras:
             pred = get_predicciones_derecha(palabras[i-1], distancia, map_palabras, map_indices, n_palabras)
         else:
-            se_cumplen_condiciones = False  
-
-        if i == indice_predecir and pred != set() and len(pred) == 1:
-            predicciones = pred
             se_cumplen_condiciones = False
-        elif i == indice_predecir and pred == set():
+            
+        interseccion = predicciones & pred      
+
+        if i == indice_predecir and len(pred) == 1:
+            predicciones = pred
             se_cumplen_condiciones = False
         elif i == indice_predecir and pred != set():
             predicciones = pred
-        elif ((predicciones & pred) == set() or len((predicciones & pred)) == 1) and i != indice_predecir:
+        elif i == indice_predecir and pred == set():
             se_cumplen_condiciones = False
+        elif (interseccion) == set() and i != indice_predecir:
+            se_cumplen_condiciones = False
+        elif len((interseccion)) == 1:
+            predicciones = interseccion
+            se_cumplen_condiciones = False    
         else:
-            predicciones = predicciones & pred      
+            predicciones = interseccion      
 
         distancia += 1
         i -= 1
 
-    return predicciones                
+    return predicciones
+
+a_predecir = "me hice fuerte ahi donde nunca vi nadie puede decirme quien _"
+
+_palabras = a_predecir.split(" ")
+indice_predecir = _palabras.index("_")                
 
 print(backward(map_palabras, map_indices, _palabras, indice_predecir, n_palabras))
 
