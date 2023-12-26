@@ -19,14 +19,13 @@ for i in range(len(palabras)):
 
 ##Primera etapa
         
-def palabra_con_mas_apariciones(palabras: set, map_palabras: dict) -> str:
+def palabra_con_mas_apariciones(apariciones: dict, predicciones: set) -> str:
 
     resultado = ("", 0)
 
-    for p in palabras:
-        apariciones = len(map_palabras[p])
-        if apariciones > resultado[1]:
-            resultado = (p, apariciones)
+    for p in apariciones:
+        if apariciones[p] > resultado[1] and p in predicciones:
+            resultado = (p, apariciones[p])
 
     return resultado[0]        
 
@@ -55,26 +54,34 @@ def es_prediccion_izquierda_valida(indice_palabra_base: int, indice_palabra_pred
     return es_valida
 
 
-def get_predicciones_derecha(palabra: str, distancia: int, map_palabras: dict, map_indices: dict, n_palabras: int) -> set:
+def get_predicciones_derecha(palabra: str, distancia: int, map_palabras: dict, map_indices: dict, n_palabras: int, apariciones: dict) -> set:
     predicciones = set()
 
     for i in map_palabras[palabra]:
         if (i+distancia) < n_palabras and es_prediccion_derecha_valida(i, i+distancia, map_indices):
             predicciones.add(map_indices[i+distancia])
+            if map_indices[i+distancia] in apariciones:
+                apariciones[map_indices[i+distancia]] += 1
+            else:
+                apariciones[map_indices[i+distancia]] = 1    
 
     return predicciones
 
-def get_predicciones_izquierda(palabra: str, distancia: int, map_palabras: dict, map_indices: dict) -> set:
+def get_predicciones_izquierda(palabra: str, distancia: int, map_palabras: dict, map_indices: dict, apariciones: dict) -> set:
     predicciones = set()
 
     for i in map_palabras[palabra]:
         if (i-distancia) >= 0 and es_prediccion_izquierda_valida(i, i-distancia, map_indices):
             predicciones.add(map_indices[i-distancia])
+            if map_indices[i-distancia] in apariciones:
+                apariciones[map_indices[i-distancia]] += 1
+            else:
+                apariciones[map_indices[i-distancia]] = 1
 
     return predicciones
 
 
-def backward(map_palabras: dict, map_indices: dict, palabras: list, indice_predecir: int, n_palabras: int) -> set:
+def backward(map_palabras: dict, map_indices: dict, palabras: list, indice_predecir: int, n_palabras: int, apariciones: dict) -> set:
     predicciones = set()
     se_cumplen_condiciones = True
     i = indice_predecir
@@ -85,7 +92,7 @@ def backward(map_palabras: dict, map_indices: dict, palabras: list, indice_prede
         pre_predicciones = set()
 
         if palabras[i-1] in map_palabras:
-            pre_predicciones = get_predicciones_derecha(palabras[i-1], distancia, map_palabras, map_indices, n_palabras)
+            pre_predicciones = get_predicciones_derecha(palabras[i-1], distancia, map_palabras, map_indices, n_palabras, apariciones)
         else:
             se_cumplen_condiciones = False
             
@@ -111,7 +118,7 @@ def backward(map_palabras: dict, map_indices: dict, palabras: list, indice_prede
 
     return predicciones
 
-def forward(map_palabras: dict, map_indices: dict, palabras: list, indice_predecir: int, predicciones: set) -> set:
+def forward(map_palabras: dict, map_indices: dict, palabras: list, indice_predecir: int, predicciones: set, apariciones: dict) -> set:
     se_cumplen_condiciones = True
     i = indice_predecir
     distancia = 1
@@ -121,7 +128,7 @@ def forward(map_palabras: dict, map_indices: dict, palabras: list, indice_predec
         pre_predicciones = set()
 
         if palabras[i+1] in map_palabras:
-            pre_predicciones = get_predicciones_izquierda(palabras[i+1], distancia, map_palabras, map_indices)
+            pre_predicciones = get_predicciones_izquierda(palabras[i+1], distancia, map_palabras, map_indices, apariciones)
             
         interseccion = predicciones & pre_predicciones
 
@@ -144,9 +151,12 @@ a_predecir = "te _ fumabas unos chinos en madrid"
 _palabras = a_predecir.split(" ")
 indice_predecir = _palabras.index("_")                
 
-predicciones = backward(map_palabras, map_indices, _palabras, indice_predecir, n_palabras)
-predicciones = forward(map_palabras, map_indices, _palabras, indice_predecir, predicciones)
+apariciones = dict()
 
-predicciones = palabra_con_mas_apariciones(predicciones, map_palabras)
+predicciones = backward(map_palabras, map_indices, _palabras, indice_predecir, n_palabras, apariciones)
+predicciones = forward(map_palabras, map_indices, _palabras, indice_predecir, predicciones, apariciones)
 
 print(predicciones)
+print(apariciones)
+
+print(palabra_con_mas_apariciones(apariciones, predicciones))
