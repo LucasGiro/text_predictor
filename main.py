@@ -18,32 +18,58 @@ for i in range(len(palabras)):
         map_palabras[palabras[i]] = [i] 
 
 
-a_predecir = "y ahora que _ y ahora que"
+a_predecir = "me hice fuerte ahi donde nunca vi nadie puede decirme quien _"
 
 _palabras = a_predecir.split(" ")
 indice_predecir = _palabras.index("_")
 
 ##Primera etapa
 
-predicciones = set()
-se_cumplen_condiciones = True
-i = indice_predecir
-contador = 1
-while se_cumplen_condiciones and i >= 3:
+def get_predicciones_derecha(palabra: str, distancia: int, map_palabras: dict, map_indices: dict, n_palabras: int) -> set:
+    predicciones = set()
 
-    if _palabras[i-1] in map_palabras and _palabras[i-1] != "-":
-        pred = set()
-        for p in map_palabras[_palabras[i-1]]:
-            pred.add(map_indices[p+contador])   
+    for i in map_palabras[palabra]:
+        if i+distancia < n_palabras:
+            predicciones.add(map_indices[i+distancia])
 
-    if contador > 1 and (predicciones & pred) == set():
-        se_cumplen_condiciones = False
-    elif contador > 1:
-        predicciones.intersection(pred) 
-    else:
-        predicciones.update(pred)    
+    return predicciones     
 
-    contador += 1
-    i -= 1             
 
-print(predicciones)
+def backward(map_palabras: dict, map_indices: dict, palabras: list, indice_predecir: int, n_palabras: int) -> set:
+    predicciones = set()
+    se_cumplen_condiciones = True
+    i = indice_predecir
+    distancia = 1
+
+    while se_cumplen_condiciones and i > 0:
+
+        if palabras[i-1] in map_palabras:
+            pred = get_predicciones_derecha(palabras[i-1], distancia, map_palabras, map_indices, n_palabras)
+        else:
+            se_cumplen_condiciones = False  
+
+        if i == indice_predecir and pred != set() and len(pred) == 1:
+            predicciones = pred
+            se_cumplen_condiciones = False
+        elif i == indice_predecir and pred == set():
+            se_cumplen_condiciones = False
+        elif i == indice_predecir and pred != set():
+            predicciones = pred
+        elif ((predicciones & pred) == set() or len((predicciones & pred)) == 1) and i != indice_predecir:
+            se_cumplen_condiciones = False
+        else:
+            predicciones = predicciones & pred      
+
+        distancia += 1
+        i -= 1
+
+    return predicciones                
+
+print(backward(map_palabras, map_indices, _palabras, indice_predecir, n_palabras))
+
+a_predecir = "y cuando me pierdo en la ciudad vos ya sabes comprender es solo un rato no _"
+
+_palabras = a_predecir.split(" ")
+indice_predecir = _palabras.index("_")
+
+print(backward(map_palabras, map_indices, _palabras, indice_predecir, n_palabras))
