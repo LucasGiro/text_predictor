@@ -18,12 +18,25 @@ for i in range(len(palabras)):
         map_palabras[palabras[i]] = [i] 
 
 ##Primera etapa
+        
+def es_prediccion_derecha_valida(indice_palabra_base: int, indice_palabra_predecida: int, map_indices: dict) -> bool:
+    
+    i = indice_palabra_base + 1
+    es_valida = True
+
+    while i <= indice_palabra_predecida and es_valida:
+        if map_indices[i] == "-": ## tambien funciona haciendo que si la palabra predecida es - entonces dicha palabra no es valida
+            es_valida = False
+        i += 1
+
+    return es_valida        
+
 
 def get_predicciones_derecha(palabra: str, distancia: int, map_palabras: dict, map_indices: dict, n_palabras: int) -> set:
     predicciones = set()
 
     for i in map_palabras[palabra]:
-        if i+distancia < n_palabras:
+        if (i+distancia) < n_palabras and es_prediccion_derecha_valida(i, i+distancia, map_indices):
             predicciones.add(map_indices[i+distancia])
 
     return predicciones     
@@ -37,19 +50,21 @@ def backward(map_palabras: dict, map_indices: dict, palabras: list, indice_prede
 
     while se_cumplen_condiciones and i > 0:
 
+        pre_predicciones = set()
+
         if palabras[i-1] in map_palabras:
-            pred = get_predicciones_derecha(palabras[i-1], distancia, map_palabras, map_indices, n_palabras)
+            pre_predicciones = get_predicciones_derecha(palabras[i-1], distancia, map_palabras, map_indices, n_palabras)
         else:
             se_cumplen_condiciones = False
             
-        interseccion = predicciones & pred      
+        interseccion = predicciones & pre_predicciones      
 
-        if i == indice_predecir and len(pred) == 1:
-            predicciones = pred
+        if i == indice_predecir and len(pre_predicciones) == 1:
+            predicciones = pre_predicciones
             se_cumplen_condiciones = False
-        elif i == indice_predecir and pred != set():
-            predicciones = pred
-        elif i == indice_predecir and pred == set():
+        elif i == indice_predecir and pre_predicciones != set():
+            predicciones = pre_predicciones
+        elif i == indice_predecir and pre_predicciones == set():
             se_cumplen_condiciones = False
         elif (interseccion) == set() and i != indice_predecir:
             se_cumplen_condiciones = False
@@ -64,7 +79,7 @@ def backward(map_palabras: dict, map_indices: dict, palabras: list, indice_prede
 
     return predicciones
 
-a_predecir = "me hice fuerte ahi donde nunca vi nadie puede decirme quien _"
+a_predecir = "el amor antes del amor capaz se parezca a este rayo de _"
 
 _palabras = a_predecir.split(" ")
 indice_predecir = _palabras.index("_")                
