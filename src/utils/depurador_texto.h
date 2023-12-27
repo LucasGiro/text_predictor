@@ -1,0 +1,1 @@
+char *depurar_texto_archivo(char *path);

@@ -1,34 +1,19 @@
 #include <stdio.h>
-#include <ctype.h>
+#include <stdlib.h>
+#include <string.h>
+#include "utils/depurador_texto.h"
 
 int main(int argc, char **argv) {
 
-    FILE *f = fopen("../Textos/Luis_Spinetta/Rezo_por_vos.txt", "r");
-    char caracter;
-    char texto[5000];
+    char path[] = "../Textos/Diego_Torres/quenomepierda.txt";
 
-    int i = 0;
+    char *texto = depurar_texto_archivo(path);
 
-    while (fscanf(f, "%c", &caracter) != EOF) {
-        if (caracter == '\n' && texto[i-1] != '\n') {
-            texto [i] = ' ';
-            i++;
-        } else if (caracter == ' ' && texto[i-1] == '\n'){
-
-        } else if (caracter == '.') {
-            texto[i] = '\n';
-            i++;
-        } else if (caracter != '\n' && caracter != ',' && caracter != ';' && caracter != '?' && caracter != '!'){
-            texto[i] = tolower(caracter);
-            i++;
-        }
-    }
-
-    texto[i] = '\0';
-
-    fclose(f);
+    long int index = strlen(texto);
 
     printf("%s", texto);
+
+    free(texto);
 
     return 0;
 
