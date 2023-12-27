@@ -3,6 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef struct Archivos {
+    int cantidad;
+    char **nombres;
+} Archivos;
+
 char *depurar_texto_archivo(char *path) {
 
     FILE *f = fopen(path, "r");
@@ -43,5 +48,13 @@ char *depurar_texto_archivo(char *path) {
     fclose(f);
 
     return texto;
+
+}
+
+Archivos *get_archivos(char *folder_name) {
+
+    system("cd ./Textos/Fito_Paez && ls > ../../archivos.txt");
+
+    return NULL;
 
 }

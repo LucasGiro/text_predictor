@@ -5,7 +5,9 @@
 
 int main(int argc, char **argv) {
 
-    char path[] = "../Textos/Diego_Torres/quenomepierda.txt";
+    get_archivos("");
+
+    char path[] = "./Textos/Diego_Torres/quenomepierda.txt";
 
     char *texto = depurar_texto_archivo(path);
 
