@@ -32,6 +32,11 @@ int main(int argc, char **argv) {
 
     destruir_struct_archivos(archivos);
 
+    char command[50] = "python3 src/main.py ";
+    strcat(command, argv[1]); 
+
+    system(command);
+
     return 0;
 
 }

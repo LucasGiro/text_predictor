@@ -1,27 +1,4 @@
-texto = ""
-
-with open('Entradas/Fito_Paez.txt', 'r') as archivo:
-    texto = archivo.read()
-
-satinized = texto.replace("\n", " - ")
-
-palabras = satinized.split(" ")
-
-n_palabras = len(palabras)
-
-map_palabras = {}
-map_indices = {}
-
-for i in range(len(palabras)):
-    map_indices[i] = palabras[i]
-
-    if palabras[i] in map_palabras:
-        map_palabras.get(palabras[i]).append(i)
-    else:
-        map_palabras[palabras[i]] = [i] 
-
-##Primera etapa
-        
+import sys
 def palabra_con_mas_apariciones(apariciones: dict, predicciones: set) -> str:
 
     resultado = ("", 0)
@@ -149,17 +126,53 @@ def forward(map_palabras: dict, map_indices: dict, palabras: list, indice_predec
 
     return predicciones
 
-a_predecir = "te _ fumabas unos chinos en madrid"
+def predecir(map_palabras: dict, map_indices: dict, a_predecir: str, n_palabras) -> str:
 
-_palabras = a_predecir.split(" ")
-indice_predecir = _palabras.index("_")                
+    a_predecir = a_predecir.replace("\n", "")
+    palabras = a_predecir.split(" ")
+    indice_predecir = palabras.index("_")                
 
-apariciones = dict()
+    apariciones = dict()
 
-predicciones = backward(map_palabras, map_indices, _palabras, indice_predecir, n_palabras, apariciones)
-predicciones = forward(map_palabras, map_indices, _palabras, indice_predecir, predicciones, apariciones)
+    predicciones = backward(map_palabras, map_indices, palabras, indice_predecir, n_palabras, apariciones)
+    predicciones = forward(map_palabras, map_indices, palabras, indice_predecir, predicciones, apariciones)
 
-print(predicciones)
-print(apariciones)
+    return a_predecir.replace("_", palabra_con_mas_apariciones(apariciones, predicciones))
 
-print(palabra_con_mas_apariciones(apariciones, predicciones))
+def main() -> int:
+
+    texto = ""
+
+    with open('Entradas/' + sys.argv[1] + '.txt', 'r') as archivo:
+        texto = archivo.read()
+
+    satinized = texto.replace("\n", " - ")
+
+    palabras = satinized.split(" ")
+
+    n_palabras = len(palabras)
+
+    map_palabras = {}
+    map_indices = {}
+
+    for i in range(len(palabras)):
+        map_indices[i] = palabras[i]
+
+        if palabras[i] in map_palabras:
+            map_palabras.get(palabras[i]).append(i)
+        else:
+            map_palabras[palabras[i]] = [i]
+
+    with open('./Frases/' + sys.argv[1] + ".txt", 'r') as archivo:
+        lineas = archivo.readlines()
+
+    with open('./Salidas/' + sys.argv[1] + '.txt', 'a') as archivo:
+    
+        for linea in lineas:
+            prediccion = predecir(map_palabras, map_indices, linea, n_palabras)
+            archivo.write(prediccion + '\n')
+
+    
+
+if __name__ == "__main__":
+    main()             
