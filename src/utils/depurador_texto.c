@@ -75,7 +75,7 @@ Archivos *get_archivos(char *folder_name) {
 
     unsigned int numero_de_linea = 0;
     unsigned int i = 0;
-
+    
     archivos->nombres = malloc(sizeof(char*));
     archivos->nombres[numero_de_linea] = malloc(sizeof(char) * 50);
     unsigned int text_size = 50;
@@ -94,6 +94,7 @@ Archivos *get_archivos(char *folder_name) {
             archivos->nombres[numero_de_linea][i] = '\0';
             i = 0;
             numero_de_linea++;
+            archivos->nombres = realloc(archivos->nombres, sizeof(char*) * (numero_de_linea + 1));
             archivos->nombres[numero_de_linea] = malloc(sizeof(char) * 50);
         }
 
@@ -104,5 +105,16 @@ Archivos *get_archivos(char *folder_name) {
     fclose(f);
 
     return archivos;
+
+}
+
+void destruir_struct_archivos(Archivos *archivos) {
+
+    for (int i = 0; i < archivos->cantidad; i++) {
+        free(archivos->nombres[i]);
+    }
+
+    free(archivos->nombres);
+    free(archivos);
 
 }

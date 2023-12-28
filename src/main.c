@@ -5,7 +5,9 @@
 
 int main(int argc, char **argv) {
 
-    get_archivos("Fito_Paez");
+    Archivos *archivos = get_archivos("Diego_Torres");
+
+    destruir_struct_archivos(archivos);
 
     /*char path[] = "./Textos/Diego_Torres/quenomepierda.txt";
 
