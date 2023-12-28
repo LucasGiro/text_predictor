@@ -1,4 +1,7 @@
-texto = "el amor despues del amor tal vez se parezca a este rayo de sol\ny ahora que busque y ahora que encontre el perfume que lleva el dolor\nen la esencia de las almas en la ausencia del dolor\nahora se que ya no puedo vivir sin tu amor\nme hice fuerte ahi donde nunca vi nadie puede decirme quien soy\nyo lo se muy bien que aprendi a querer el perfume que lleva el dolor\nen la esencia de las almas dice toda religion para mi que es el amor despues del amor\nte vi juntabas margaritas del mantel\nya se que te trate bastante mal\nno se si eras un angel o un rubi o simplemente te vi\nte vi saliste entre la gente a saludar\nlos astros se rieron otra vez\nla llave de mandala se quebro o simplemente te vi\ntodo lo que diga esta de mas las luces siempre encienden en el alma\ny cuando me pierdo en la ciudad vos ya sabes comprender es solo un rato no mas\ntendria que llorar o salir a matar\nte vi te vi te vi\nyo no buscaba nadie y te vi"
+texto = ""
+
+with open('Entradas/Fito_Paez.txt', 'r') as archivo:
+    texto = archivo.read()
 
 satinized = texto.replace("\n", " - ")
 
