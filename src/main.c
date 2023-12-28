@@ -5,17 +5,17 @@
 
 int main(int argc, char **argv) {
 
-    get_archivos("");
+    get_archivos("Fito_Paez");
 
-    char path[] = "./Textos/Diego_Torres/quenomepierda.txt";
+    /*char path[] = "./Textos/Diego_Torres/quenomepierda.txt";
 
-    char *texto = depurar_texto_archivo(path);
+    char *texto = get_texto_sanitizado(path);
 
     long int index = strlen(texto);
 
     printf("%s", texto);
 
-    free(texto);
+    free(texto);*/
 
     return 0;
 

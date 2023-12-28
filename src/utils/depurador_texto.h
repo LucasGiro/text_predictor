@@ -3,6 +3,6 @@ typedef struct Archivos {
     char **nombres;
 } Archivos;
 
-char *depurar_texto_archivo(char *path);
+char *get_texto_sanitizado(char *path);
 
 Archivos *get_archivos(char *nombre_carpeta);
