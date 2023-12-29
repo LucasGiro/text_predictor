@@ -40,7 +40,7 @@ char *get_texto_sanitizado(char *path) {
         } else if (caracter == '.') {
             texto[i] = '\n';
             i++;
-        } else if (caracter != '\n' && caracter != ',' && caracter != ';' && caracter != '?' && caracter != '!'){
+        } else if (caracter != '\n' && caracter != ',' && caracter != ';' && caracter != '?' && caracter != '!' && caracter != ':' && caracter != '-' && caracter != '(' && caracter != ')' && caracter != '¡' && caracter != '¿'){
             texto[i] = tolower(caracter);
             i++;
         }
