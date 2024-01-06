@@ -11,6 +11,26 @@ typedef struct Archivos {
     char **nombres;
 } Archivos;
 
+int es_caracter_valido(char c) {
+    
+    char caracteres_invalidos[] = "\n,;?¿!¡:-()_{}[]*'/|#$";
+    size_t longitud_caracteres_invalidos = strlen(caracteres_invalidos);
+    int es_valido = 1; 
+    int i = 0;
+
+    while (i < longitud_caracteres_invalidos && es_valido) {
+
+        if (c == caracteres_invalidos[i]) {
+            es_valido = 0;
+        }
+
+        i++;
+
+    }
+
+    return es_valido;
+}
+
 char *get_texto_sanitizado(char *path) {
 
     FILE *f = fopen(path, "r");
@@ -40,7 +60,7 @@ char *get_texto_sanitizado(char *path) {
         } else if (caracter == '.') {
             texto[i] = '\n';
             i++;
-        } else if (caracter != '\n' && caracter != ',' && caracter != ';' && caracter != '?' && caracter != '!' && caracter != ':' && caracter != '-' && caracter != '(' && caracter != ')' && caracter != '¡' && caracter != '¿'){
+        } else if (es_caracter_valido(caracter)){
             texto[i] = tolower(caracter);
             i++;
         }
