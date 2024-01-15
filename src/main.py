@@ -73,25 +73,17 @@ def backward(map_palabras: dict, map_indices: dict, palabras: list, indice_prede
 
         if palabras[i-1] in map_palabras:
             pre_predicciones = get_predicciones_derecha(palabras[i-1], distancia, map_palabras, map_indices, n_palabras, apariciones)
-        else:
-            se_cumplen_condiciones = False
             
-        interseccion = predicciones & pre_predicciones      
+            if predicciones == set():
+                predicciones = pre_predicciones
 
-        if i == indice_predecir and len(pre_predicciones) == 1:
-            predicciones = pre_predicciones
-            se_cumplen_condiciones = False
-        elif i == indice_predecir and pre_predicciones != set():
-            predicciones = pre_predicciones
-        elif i == indice_predecir and pre_predicciones == set():
-            se_cumplen_condiciones = False
-        elif (interseccion) == set() and i != indice_predecir:
-            se_cumplen_condiciones = False
-        elif len((interseccion)) == 1:
-            predicciones = interseccion
-            se_cumplen_condiciones = False    
-        else:
-            predicciones = interseccion      
+            interseccion = predicciones & pre_predicciones      
+
+            if len((interseccion)) == 1:
+                predicciones = interseccion
+                se_cumplen_condiciones = False    
+            elif interseccion != set():
+                predicciones = interseccion      
 
         distancia += 1
         i -= 1
@@ -110,16 +102,16 @@ def forward(map_palabras: dict, map_indices: dict, palabras: list, indice_predec
         if palabras[i+1] in map_palabras:
             pre_predicciones = get_predicciones_izquierda(palabras[i+1], distancia, map_palabras, map_indices, apariciones)
             
-        interseccion = predicciones & pre_predicciones
+            if predicciones == set():
+                predicciones = pre_predicciones 
 
-        if predicciones == set():
-            predicciones = pre_predicciones      
+            interseccion = predicciones & pre_predicciones     
 
-        if len((interseccion)) == 1:
-            predicciones = interseccion
-            se_cumplen_condiciones = False    
-        elif interseccion != set():
-            predicciones = interseccion
+            if len((interseccion)) == 1:
+                predicciones = interseccion
+                se_cumplen_condiciones = False    
+            elif interseccion != set():
+                predicciones = interseccion
               
         distancia += 1
         i += 1
