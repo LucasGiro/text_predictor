@@ -83,7 +83,9 @@ def backward(map_palabras: dict, map_indices: dict, palabras: list, indice_prede
                 predicciones = interseccion
                 se_cumplen_condiciones = False    
             elif interseccion != set():
-                predicciones = interseccion      
+                predicciones = interseccion
+            else:
+                se_cumplen_condiciones = False        
 
         distancia += 1
         i -= 1
