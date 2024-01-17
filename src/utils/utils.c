@@ -13,7 +13,7 @@ typedef struct Archivos {
 
 int es_caracter_valido(char c) {
     
-    char caracteres_invalidos[] = "\n,;?¿!¡:-()_{}[]*'/|#$\"\'&";
+    char caracteres_invalidos[] = "\n,;?¿!¡:-()_{}[]*'/|#$\"\'\r& ";
     size_t longitud_caracteres_invalidos = strlen(caracteres_invalidos);
     int es_valido = 1; 
     int i = 0;
@@ -53,17 +53,19 @@ char *get_texto_sanitizado(char *path) {
             size_texto += REALLOC_INCREMENT;
             texto = realloc(texto, size_texto);
         }
-        if (caracter == '\n' && ultimo_caracter != '\n') {
-            texto [i] = ' ';
+        if (caracter == '\n' && ultimo_caracter != '\n' && ultimo_caracter != ' ') {
+            texto[i] = ' ';
             ultimo_caracter = texto[i];
             i++;
-        } else if (caracter == ' ' && ultimo_caracter == '\n'){
-
         } else if (caracter == '.') {
             texto[i] = '\n';
             ultimo_caracter = texto[i];
             i++;
-        } else if (es_caracter_valido(caracter)){
+        } else if (caracter == ',') {
+            texto[i] = ' ';
+            ultimo_caracter = texto[i];
+            i++;
+        } else if (es_caracter_valido(caracter) || (caracter == ' ' && ultimo_caracter != '\n' && ultimo_caracter != ' ')){
             texto[i] = tolower(caracter);
             ultimo_caracter = texto[i];
             i++;
