@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
 
     for (int i = 0; i < archivos->cantidad; i++) {
 
-        char path[100] = "./Textos/";
+        char path[200] = "./Textos/";
         strcat(path, argv[1]);
         strcat(path, "/");
         strcat(path, archivos->nombres[i]);
@@ -32,8 +32,8 @@ int main(int argc, char **argv) {
 
     destruir_struct_archivos(archivos);
 
-    char command[50] = "python3 src/main.py ";
-    strcat(command, argv[1]); 
+    char command[100] = "python3 src/main.py ";
+    strcat(command, argv[1]);
 
     system(command);
 
