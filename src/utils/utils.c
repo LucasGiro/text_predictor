@@ -132,7 +132,7 @@ Archivos *get_archivos(char *folder_name) {
 
 void destruir_struct_archivos(Archivos *archivos) {
 
-    for (int i = 0; i < archivos->cantidad; i++) {
+    for (int i = 0; i < (archivos->cantidad + 1); i++) {
         free(archivos->nombres[i]);
     }
 
