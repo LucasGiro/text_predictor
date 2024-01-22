@@ -78,7 +78,7 @@ char *get_texto_sanitizado(char *path) {
 
 Archivos *get_archivos(char *folder_name) {
 
-    char command[100] = "cd ";
+    char command[250] = "cd ";
     strcat(command, "./Textos/");
     strcat(command, folder_name);
     strcat(command, " && ls > ../../archivos.txt");
@@ -136,7 +136,10 @@ void destruir_struct_archivos(Archivos *archivos) {
         free(archivos->nombres[i]);
     }
 
-    free(archivos->nombres);
+    if (archivos->cantidad > 0) {
+        free(archivos->nombres);
+    }
+
     free(archivos);
 
 }
