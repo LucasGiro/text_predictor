@@ -89,7 +89,6 @@ def test_forward():
 
 
 def test_predecir():
-    ## map_palabras: dict, map_indices: dict, frase_a_predecir: str, n_palabras
     map_palabras = { 'hoy': [0], 'haremos': [1, 9], 'los': [2, 10], 'casos': [3], 'de': [4, 11], 'test': [5], 'en': [6], 'python': [7], 'manana': [8], 'c': [12] }
     map_indices = { 0: 'hoy', 1: 'haremos', 2: 'los', 3: 'casos', 4: 'de', 5: 'test', 6: 'en', 7: 'python', 8: 'manana', 9: 'haremos', 10: 'los', 11: 'de', 12: 'c' }
     n_palabras = 13
