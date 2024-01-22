@@ -13,7 +13,7 @@ typedef struct Archivos {
 
 int es_caracter_valido(char c) {
     
-    char caracteres_invalidos[] = "\n,.;?¿!¡:-()_{}[]*'/|#$\"\'\r& ";
+    char caracteres_invalidos[] = "\n,.;?¿!¡:-()_{}[]*'/|#$\"\'\r&<> ";
     size_t longitud_caracteres_invalidos = strlen(caracteres_invalidos);
     int es_valido = 1; 
     int i = 0;

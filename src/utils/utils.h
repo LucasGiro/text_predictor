@@ -3,6 +3,8 @@ typedef struct Archivos {
     char **nombres;
 } Archivos;
 
+int es_caracter_valido(char c);
+
 char *get_texto_sanitizado(char *path);
  
 Archivos *get_archivos(char *nombre_carpeta);
