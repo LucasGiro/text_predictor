@@ -79,7 +79,7 @@ def backward(map_palabras: dict, map_indices: dict, palabras: list, indice_prede
 
             interseccion = predicciones & nuevas_predicciones      
 
-            if len((interseccion)) == 1:
+            if len(interseccion) == 1:
                 predicciones = interseccion
                 continuar_busqueda = False
             elif interseccion != set():
@@ -109,7 +109,7 @@ def forward(map_palabras: dict, map_indices: dict, palabras: list, indice_predec
 
             interseccion = predicciones & nuevas_predicciones     
 
-            if len((interseccion)) == 1:
+            if len(interseccion) == 1:
                 predicciones = interseccion
                 continuar_busqueda = False    
             elif interseccion != set():
@@ -150,10 +150,8 @@ def main() -> None:
     n_palabras = len(palabras)
 
     map_palabras = {} # almacena en cada key la palabra y como valor una lista de indices donde aparece la palabra
-    map_indices = {} # almacena en cada key el indice de una palabra y como valor la palabra
 
-    for i in range(len(palabras)):
-        map_indices[i] = palabras[i]
+    for i in range(n_palabras):
 
         if palabras[i] in map_palabras:
             map_palabras.get(palabras[i]).append(i)
@@ -166,7 +164,7 @@ def main() -> None:
     with open('./Salidas/' + sys.argv[1] + '.txt', 'a') as archivo:
     
         for frase in frases:
-            prediccion = predecir(map_palabras, map_indices, frase, n_palabras)
+            prediccion = predecir(map_palabras, palabras, frase, n_palabras)
             archivo.write(prediccion + '\n')
 
 
