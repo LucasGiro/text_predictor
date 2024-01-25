@@ -53,15 +53,15 @@ char *get_texto_sanitizado(char *path) {
             size_texto += REALLOC_INCREMENT;
             texto = realloc(texto, size_texto);
         }
-        if ((caracter == '\n' || caracter == ',') && ultimo_caracter != '\n' && ultimo_caracter != ' ') {
+        if ((caracter == '\n' || caracter == ',') && ultimo_caracter != '\n' && ultimo_caracter != ' ' && ultimo_caracter != '\0') {
             texto[i] = ' ';
             ultimo_caracter = texto[i];
             i++;
-        } else if (caracter == '.' && ultimo_caracter != '\n') {
+        } else if (caracter == '.' && ultimo_caracter != '\n' && ultimo_caracter != '\0') {
             texto[i] = '\n';
             ultimo_caracter = texto[i];
             i++;
-        } else if ((caracter == ' ' && ultimo_caracter != '\n' && ultimo_caracter != ' ') || es_caracter_valido(caracter)) {
+        } else if ((caracter == ' ' && ultimo_caracter != '\n' && ultimo_caracter != ' ' && ultimo_caracter != '\0') || es_caracter_valido(caracter)) {
             texto[i] = tolower(caracter);
             ultimo_caracter = texto[i];
             i++;

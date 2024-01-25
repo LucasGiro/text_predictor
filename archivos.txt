@@ -1,3 +1,2 @@
-flaca.txt
-mienfermedad.txt
-tequieroigual.txt
+texto1.txt
+texto2.txt
