@@ -10,7 +10,7 @@ def palabra_con_mas_apariciones(apariciones: dict, predicciones: set) -> str:
     return resultado[0]
 
         
-def es_prediccion_derecha_valida(indice_palabra_base: int, indice_palabra_predecida: int, palabras_texto: dict) -> bool:
+def es_prediccion_derecha_valida(indice_palabra_base: int, indice_palabra_predecida: int, palabras_texto: list[str]) -> bool:
     
     i = indice_palabra_base + 1
     es_valida = True
@@ -22,7 +22,7 @@ def es_prediccion_derecha_valida(indice_palabra_base: int, indice_palabra_predec
 
     return es_valida
 
-def es_prediccion_izquierda_valida(indice_palabra_base: int, indice_palabra_predecida: int, palabras_texto: dict) -> bool:
+def es_prediccion_izquierda_valida(indice_palabra_base: int, indice_palabra_predecida: int, palabras_texto: list[str]) -> bool:
     i = indice_palabra_base - 1
     es_valida = True
 
@@ -34,7 +34,7 @@ def es_prediccion_izquierda_valida(indice_palabra_base: int, indice_palabra_pred
     return es_valida
 
 
-def get_predicciones_derecha(palabra: str, distancia: int, map_palabras: dict, palabras_texto: dict, n_palabras: int, apariciones: dict) -> set:
+def get_predicciones_derecha(palabra: str, distancia: int, map_palabras: dict, palabras_texto: list[str], n_palabras: int, apariciones: dict) -> set:
     predicciones = set()
 
     for i in map_palabras[palabra]:
@@ -47,7 +47,7 @@ def get_predicciones_derecha(palabra: str, distancia: int, map_palabras: dict, p
 
     return predicciones
 
-def get_predicciones_izquierda(palabra: str, distancia: int, map_palabras: dict, palabras_texto: dict, apariciones: dict) -> set:
+def get_predicciones_izquierda(palabra: str, distancia: int, map_palabras: dict, palabras_texto: list[str], apariciones: dict) -> set:
     predicciones = set()
 
     for i in map_palabras[palabra]:
@@ -61,7 +61,7 @@ def get_predicciones_izquierda(palabra: str, distancia: int, map_palabras: dict,
     return predicciones
 
 
-def backward(map_palabras: dict, palabras_texto: dict, palabras_frase: list, indice_predecir: int, n_palabras: int, apariciones: dict) -> set:
+def backward(map_palabras: dict, palabras_texto: list[str], palabras_frase: list[str], indice_predecir: int, n_palabras: int, apariciones: dict) -> set:
     predicciones = set()
     continuar_busqueda = True
     i = indice_predecir
@@ -92,7 +92,7 @@ def backward(map_palabras: dict, palabras_texto: dict, palabras_frase: list, ind
 
     return predicciones
 
-def forward(map_palabras: dict, palabras_texto: dict, palabras_frase: list, indice_predecir: int, predicciones: set, apariciones: dict) -> set:
+def forward(map_palabras: dict, palabras_texto: list[str], palabras_frase: list[str], indice_predecir: int, predicciones: set, apariciones: dict) -> set:
     continuar_busqueda = True
     i = indice_predecir
     distancia = 1
@@ -120,7 +120,7 @@ def forward(map_palabras: dict, palabras_texto: dict, palabras_frase: list, indi
 
     return predicciones
 
-def predecir(map_palabras: dict, palabras_texto: dict, frase_a_predecir: str, n_palabras) -> str:
+def predecir(map_palabras: dict, palabras_texto: list[str], frase_a_predecir: str, n_palabras: int) -> str:
 
     frase_a_predecir = frase_a_predecir.replace("\n", "")
     palabras_frase = frase_a_predecir.split(" ")
@@ -133,7 +133,7 @@ def predecir(map_palabras: dict, palabras_texto: dict, frase_a_predecir: str, n_
     # busco entre las palabras que estan despues de la que tengo que predecir
     predicciones = forward(map_palabras, palabras_texto, palabras_frase, indice_predecir, predicciones, apariciones)
 
-    # busco la palabra que mas apariciones tuvo durante el proceso de prediccion y reemplazo el guion bajo con esa palabra
+    # busco la palabra que mas apariciones tuvo durante el proceso de prediccion y que además este en el conjunto predicciones, luego reemplazo el guion bajo con esa palabra
     return frase_a_predecir.replace("_", palabra_con_mas_apariciones(apariciones, predicciones))
 
 def main() -> None:

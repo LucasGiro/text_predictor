@@ -1,0 +1,43 @@
+*** COMPILACION DEL PROYECTO ***
+
+Para compilar el programa escrito C : `gcc ./src/utils/utils.c ./src/main.c -o main`
+
+Para compilar el archivo de tests de C : `gcc ./src/utils/utils.c ./src/tests.c -o tests`
+
+*** Testing ***
+
+Una vez compilado el archivo de tests de C, ejecutar el archivo ./tests para correr los tests de C.
+
+Para los tests de python, correr `python3 -m pytest src/tests.py`
+
+*** DESCRIPCION GENERAL DEL PROYECTO ***
+
+Estructura de datos utilizadas:
+
+* lista de palabras: Esta lista almacenará las palabras del texto sanitizado, donde el string "-" separa las oraciones.
+
+* diccionario de palabras: Este diccionario tendra como key una palabra del texto sanitizado, donde se almacenará como valor una lista de indices donde se encuentra esa palabra en la lista de palabras mencionada anteriormente.
+
+* diccionario de apariciones: Este diccionario tendra como key una palabra del texto sanitizado, donde el valor será un entero que indique la cantidad de veces que apareció esa palabra durante el proceso de predicción.
+
+* predicciones: este será un conjunto donde se irán almacenando las predicciones
+
+** Elegi este conjunto de estructuras ya que fue la mas optima (la que menos memoria usó) de todas las demas opciones que probé **
+
+Solución propuesta:
+
+La solucion consiste en una serie de pasos procedimentales, a modo de resumen, esto es lo que haría (a modo de ejemplo tomamos la frase "esto es _ ejemplo"):
+
+1- El programa comienza analizando las palabras que estan destras de la palabra a predecir, en este caso, toma la palabra "es" y busca en el diccionario de palabras en que posiciones se encuentra dicha palabra.
+
+2- A cada posicion le suma 1 (la distancia a la que esta "es" de la palabra a predecir) y busca esos indices en la lista de palabras, obteniendo asi, posibles palabras para completar, almacenandolas en el conjunto predicciones.
+
+3- Luego se hace los mismo con la palabra "esto", pero ahora tomando la distancia 2 y analizando si entre medio de dicha palabra y la posible a predecir no se encuentra un "-", ya que se estaría saliendo de la oración. Luego interseco este conjunto de nuevas palabras con el conjunto predicciones. Si la interseccion es vacia, entonces se queda con las predicciones hechas anteriormente y deja seguir buscando.
+
+4- Si el numero de predicciones resultantes es mayor que 1 y ya no hay mas palabras para analizar, entonces realiza el mismo procedimiento pero con las palabras que están despues de la palabra a predecir, pero trabajando con el conjunto de predicciones ya obtenido anteriormente, siendo éste de mayor importancia que las posibles nuevas predicciones. El objetivo de esto es achicar lo mas posible el conjunto predicciones haciendo interseccion con las nuevas predicciones.
+
+5- Una vez terminada la busqueda y teniendo el conjunto de predicciones, si éste tiene más de una prediccion, utilizo el diccionario de apariciones y utilizo la que tenga mas apariciones.
+
+Observacion: como se puede notar, se les está dando mayor importancia a las predicciones obtenidas de palabras anteriores a la que se tiene que predecir. Esa fue una decision importante, pues si fuera otro
+
+el orden de importancia, el algoritmo estaria prediciendo cosas diferentes. Tome esta decisión ya que fue la que mejores resultados de prediccion me dió comparado a otras (como por ejemplo que no haya un orden de importancia).

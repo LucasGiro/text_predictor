@@ -1,2 +1,0 @@
-gcc ./src/utils/utils.c ./src/main.c -o main
-gcc ./src/utils/utils.c ./src/tests.c -o tests
