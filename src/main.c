@@ -7,15 +7,17 @@ int main(int argc, char **argv) {
 
     Archivos *archivos = get_archivos(argv[1]);
 
-    char output_file_path[100] = "./Entradas/";
+    char output_file_path[200] = "./Entradas/";
     strcat(output_file_path, argv[1]);
     strcat(output_file_path, ".txt");
 
-    FILE *output_file = fopen(output_file_path, "w"); 
+    FILE *output_file = fopen(output_file_path, "w");
+
+    printf("sanitizando textos...\n");
 
     for (int i = 0; i < archivos->cantidad; i++) {
 
-        char path[200] = "./Textos/";
+        char path[250] = "./Textos/";
         strcat(path, argv[1]);
         strcat(path, "/");
         strcat(path, archivos->nombres[i]);
@@ -32,10 +34,14 @@ int main(int argc, char **argv) {
 
     destruir_struct_archivos(archivos);
 
+    printf("completando frases...\n");
+
     char command[100] = "python3 src/main.py ";
     strcat(command, argv[1]);
 
-    system(command);
+    int status = system(command);
+
+    printf("proceso finalizado con status: %s\n", (status) ? "ERROR" : "OK");
 
     return 0;
 

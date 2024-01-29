@@ -3,13 +3,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define INITIAL_BUFFER_SIZE 1000
-#define REALLOC_INCREMENT 1000
+#define TAMANO_BUFFER_INICIAL 1000
+#define INCREMENTO_REALLOC 1000
 
 typedef struct Archivos {
     int cantidad;
     char **nombres;
 } Archivos;
+
+/* es_caracter_valido: Toma un caracter y retorna 1 si es un caracter valido o 0 en caso contrario */
 
 int es_caracter_valido(char c) {
     
@@ -31,6 +33,8 @@ int es_caracter_valido(char c) {
     return es_valido;
 }
 
+/* get_texto_sanitizado: Toma la ruta de un archivo de texto, sanitiza su contenido y lo almacena en memoria, retornando un puntero a dicho bloque */
+
 char *get_texto_sanitizado(char *path) {
 
     FILE *f = fopen(path, "r");
@@ -42,17 +46,18 @@ char *get_texto_sanitizado(char *path) {
 
     char caracter;
     char ultimo_caracter = '\0';
-    char *texto = malloc(sizeof(char) * INITIAL_BUFFER_SIZE);
+    char *texto = malloc(sizeof(char) * TAMANO_BUFFER_INICIAL);
 
     unsigned int i = 0;
-    unsigned int size_texto = INITIAL_BUFFER_SIZE;
+    unsigned int size_texto = TAMANO_BUFFER_INICIAL;
 
     while (fscanf(f, "%c", &caracter) != EOF) {
 
         if (i == size_texto) {
-            size_texto += REALLOC_INCREMENT;
+            size_texto += INCREMENTO_REALLOC;
             texto = realloc(texto, size_texto);
         }
+
         if ((caracter == '\n' || caracter == ',') && ultimo_caracter != '\n' && ultimo_caracter != ' ' && ultimo_caracter != '\0') {
             texto[i] = ' ';
             ultimo_caracter = texto[i];
@@ -75,6 +80,8 @@ char *get_texto_sanitizado(char *path) {
     return texto;
 
 }
+
+/* get_archivos: Toma el nombre de un directorio dentro de Textos y retorna una estructura Archivos que contiene el nombre de todos los archivos dentro del directorio */
 
 Archivos *get_archivos(char *folder_name) {
 
@@ -117,12 +124,13 @@ Archivos *get_archivos(char *folder_name) {
             i = 0;
             numero_de_linea++;
             archivos->nombres = realloc(archivos->nombres, sizeof(char*) * (numero_de_linea + 1));
-            archivos->nombres[numero_de_linea] = malloc(sizeof(char) * 50);
+            archivos->nombres[numero_de_linea] = malloc(sizeof(char) * 50); // cuando se llegue a EOF, esta asignacion hara que sobre un bloque de memoria
         }
 
     }
 
     archivos->cantidad = numero_de_linea;
+    free(archivos->nombres[numero_de_linea]); // liberando el bloque de memoria que sobra
 
     fclose(f);
 
@@ -130,9 +138,11 @@ Archivos *get_archivos(char *folder_name) {
 
 }
 
+// destruir_struct_archivos: Recibe un puntero a una estructura Archivos y libera la memoria ocupada por esa estructura
+
 void destruir_struct_archivos(Archivos *archivos) {
 
-    for (int i = 0; i < (archivos->cantidad + 1); i++) {
+    for (int i = 0; i < archivos->cantidad; i++) {
         free(archivos->nombres[i]);
     }
 
