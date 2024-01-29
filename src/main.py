@@ -1,4 +1,8 @@
 import sys
+
+""" palabra_con_mas_apariciones: toma el diccionario de apariciones y el conjunto de predicciones, retorna la palabra
+    que esta tanto en apariciones como en predicciones, con el mayor numero de apariciones """
+
 def palabra_con_mas_apariciones(apariciones: dict, predicciones: set) -> str:
 
     resultado = ("", 0)
@@ -9,7 +13,10 @@ def palabra_con_mas_apariciones(apariciones: dict, predicciones: set) -> str:
 
     return resultado[0]
 
-        
+""" es_prediccion_derecha_valida: toma el indice de la palabra usada para predecir, el indice de la palabra predecida
+    y el texto. Retorna True si no hay ningun "-" entre medio de la palabra usada para predecir y la palabra predecida,
+    en caso contrario retorna False. Siempre se cumplirá que indice_palabra_base < indice_palabra_predecida """
+
 def es_prediccion_derecha_valida(indice_palabra_base: int, indice_palabra_predecida: int, palabras_texto: list[str]) -> bool:
     
     i = indice_palabra_base + 1
@@ -22,6 +29,10 @@ def es_prediccion_derecha_valida(indice_palabra_base: int, indice_palabra_predec
 
     return es_valida
 
+""" es_prediccion_izquierda_valida: toma el indice de la palabra usada para predecir, el indice de la palabra predecida
+    y el texto. Retorna True si no hay ningun "-" entre medio de la palabra usada para predecir y la palabra predecida,
+    en caso contrario retorna False. Siempre se cumplirá que indice_palabra_base > indice_palabra_predecida """
+
 def es_prediccion_izquierda_valida(indice_palabra_base: int, indice_palabra_predecida: int, palabras_texto: list[str]) -> bool:
     i = indice_palabra_base - 1
     es_valida = True
@@ -33,6 +44,9 @@ def es_prediccion_izquierda_valida(indice_palabra_base: int, indice_palabra_pred
 
     return es_valida
 
+""" get_predicciones_derecha: con la palabra recibida, busca en map_palabras en que posiciones se encuentra dicha
+    palabra en el texto. Luego, a cada una de esas posiciones le suma distancia y alamacena en un conjunto la palabra
+    que se encuentra en palabras_texto en la posicion resultado de la suma (si es valida). Retorna el conjunto con todas esas palabras."""
 
 def get_predicciones_derecha(palabra: str, distancia: int, map_palabras: dict, palabras_texto: list[str], n_palabras: int, apariciones: dict) -> set:
     predicciones = set()
@@ -47,6 +61,10 @@ def get_predicciones_derecha(palabra: str, distancia: int, map_palabras: dict, p
 
     return predicciones
 
+""" get_predicciones_izquierda: con la palabra recibida, busca en map_palabras en que posiciones se encuentra dicha
+    palabra en el texto. Luego, a cada una de esas posiciones le resta distancia y alamacena en un conjunto la palabra
+    que se encuentra en palabras_texto en la posicion resultado de la resta (si es valida). Retorna el conjunto con todas esas palabras. """
+
 def get_predicciones_izquierda(palabra: str, distancia: int, map_palabras: dict, palabras_texto: list[str], apariciones: dict) -> set:
     predicciones = set()
 
@@ -60,6 +78,10 @@ def get_predicciones_izquierda(palabra: str, distancia: int, map_palabras: dict,
 
     return predicciones
 
+""" backward: retorna un conjunto con todas las posibles predicciones de una frase en base a las palabras anteriores
+    a la que se tiene que predecir. Recorre las palabras de la frase a predecir desde la posicion del _ hasta que el
+    numero de predicciones sea 1, o la interseccion de las predicciones sea vacío, o hasta que llegue a la primer palabra
+    de la frase. En cada una de estas iteraciones ejecuta get_predicciones_derecha() si es que la palabra existe en el texto. """
 
 def backward(map_palabras: dict, palabras_texto: list[str], palabras_frase: list[str], indice_predecir: int, n_palabras: int, apariciones: dict) -> set:
     predicciones = set()
@@ -92,6 +114,11 @@ def backward(map_palabras: dict, palabras_texto: list[str], palabras_frase: list
 
     return predicciones
 
+""" forward: retorna un conjunto con todas las posibles predicciones de una frase en base a las palabras posteriores
+    a la que se tiene que predecir. Recorre las palabras de la frase a predecir desde la posicion del _ hasta que el
+    numero de predicciones sea 1 o hasta que llegue a la ultima palabra de la frase. En cada una de estas iteraciones
+    ejecuta get_predicciones_izquierda() si es que la palabra existe en el texto. """
+
 def forward(map_palabras: dict, palabras_texto: list[str], palabras_frase: list[str], indice_predecir: int, predicciones: set, apariciones: dict) -> set:
     continuar_busqueda = True
     i = indice_predecir
@@ -119,6 +146,8 @@ def forward(map_palabras: dict, palabras_texto: list[str], palabras_frase: list[
         i += 1
 
     return predicciones
+
+"""" predecir: toma la frase a predecir y retorna la frase predecida """
 
 def predecir(map_palabras: dict, palabras_texto: list[str], frase_a_predecir: str, n_palabras: int) -> str:
 

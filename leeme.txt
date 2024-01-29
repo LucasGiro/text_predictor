@@ -1,6 +1,6 @@
 *** COMPILACION DEL PROYECTO ***
 
-Para compilar el programa escrito C : `gcc ./src/utils/utils.c ./src/main.c -o main`
+Para compilar el programa escrito en C : `gcc ./src/utils/utils.c ./src/main.c -o main`
 
 Para compilar el archivo de tests de C : `gcc ./src/utils/utils.c ./src/tests.c -o tests`
 
@@ -14,19 +14,19 @@ Para los tests de python, correr `python3 -m pytest src/tests.py`
 
 Estructura de datos utilizadas:
 
-* lista de palabras: Esta lista almacenará las palabras del texto sanitizado, donde el string "-" separa las oraciones.
+* palabras_texto: Lista que almacenará las palabras del texto sanitizado, donde el string "-" marca la separación entre las oraciones. En otras palabras, esta lista es el texto sanitizado representado en forma de lista, donde cada posicion es una palabra, y "-" representa la separacion entre las oraciones.
 
-* diccionario de palabras: Este diccionario tendra como key una palabra del texto sanitizado, donde se almacenará como valor una lista de indices donde se encuentra esa palabra en la lista de palabras mencionada anteriormente.
+* map_palabras: Es un diccionario que tiene como key una palabra del texto sanitizado, en la cual se almacenará como valor una lista de indices donde se encuentra esa palabra en la lista de palabras mencionada anteriormente (palabras_texto).
 
-* diccionario de apariciones: Este diccionario tendra como key una palabra del texto sanitizado, donde el valor será un entero que indique la cantidad de veces que apareció esa palabra durante el proceso de predicción.
+* apariciones: Es un diccionario que tiene como key una palabra del texto sanitizado, donde el valor será un entero que indique la cantidad de veces que apareció esa palabra durante el proceso de predicción de una frase.
 
-* predicciones: este será un conjunto donde se irán almacenando las predicciones
+* predicciones: este será un conjunto donde se irán almacenando las posibles predicciones para una frase.
 
-** Elegi este conjunto de estructuras ya que fue la mas optima (la que menos memoria usó) de todas las demas opciones que probé **
+** Elegi este conjunto de estructuras ya que fue la mas optima (la que menos memoria usó) de todas las demas opciones que probé y además por la simpleza y claridad de trabajo que ofrecían **
 
-Solución propuesta:
+*** SOLUCIÓN PROPUESTA ***
 
-La solucion consiste en una serie de pasos procedimentales, a modo de resumen, esto es lo que haría (a modo de ejemplo tomamos la frase "esto es _ ejemplo"):
+La solucion consiste en una serie de pasos procedimentales, a modo de resumen y omitiendo algunos detalles, esto es lo que haría: (como ejemplo tomamos la frase "esto es _ ejemplo")
 
 1- El programa comienza analizando las palabras que estan destras de la palabra a predecir, en este caso, toma la palabra "es" y busca en el diccionario de palabras en que posiciones se encuentra dicha palabra.
 

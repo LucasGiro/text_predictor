@@ -11,7 +11,7 @@ typedef struct Archivos {
     char **nombres;
 } Archivos;
 
-/* es_caracter_valido: Toma un caracter y retorna 1 si es un caracter valido o 0 en caso contrario */
+/* es_caracter_valido: Toma un caracter y retorna 1 si es un caracter valido o 0 en caso contrario. */
 
 int es_caracter_valido(char c) {
     
@@ -33,7 +33,8 @@ int es_caracter_valido(char c) {
     return es_valido;
 }
 
-/* get_texto_sanitizado: Toma la ruta de un archivo de texto, sanitiza su contenido y lo almacena en memoria, retornando un puntero a dicho bloque */
+/* get_texto_sanitizado: Toma la ruta de un archivo de texto, sanitiza su contenido y lo almacena en
+   memoria, retornando un puntero a dicho bloque. */
 
 char *get_texto_sanitizado(char *path) {
 
@@ -81,7 +82,8 @@ char *get_texto_sanitizado(char *path) {
 
 }
 
-/* get_archivos: Toma el nombre de un directorio dentro de Textos y retorna una estructura Archivos que contiene el nombre de todos los archivos dentro del directorio */
+/* get_archivos: Toma el nombre de un directorio dentro de Textos y retorna una estructura Archivos
+   que contiene el nombre de todos los archivos dentro del directorio. */
 
 Archivos *get_archivos(char *folder_name) {
 
@@ -138,7 +140,7 @@ Archivos *get_archivos(char *folder_name) {
 
 }
 
-// destruir_struct_archivos: Recibe un puntero a una estructura Archivos y libera la memoria ocupada por esa estructura
+// destruir_struct_archivos: Recibe un puntero a una estructura Archivos y libera la memoria ocupada por esa estructura.
 
 void destruir_struct_archivos(Archivos *archivos) {
 
