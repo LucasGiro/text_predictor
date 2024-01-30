@@ -1,43 +1,45 @@
-*** COMPILACION DEL PROYECTO ***
+*** COMPILACIÓN DEL PROYECTO ***
 
-Para compilar el programa escrito en C : `gcc ./src/utils/utils.c ./src/main.c -o main`
+Para compilar el programa escrito en C, correr: `gcc ./src/utils/utils.c ./src/main.c -o main`
 
-Para compilar el archivo de tests de C : `gcc ./src/utils/utils.c ./src/tests.c -o tests`
+Para compilar el archivo de tests de C, correr: `gcc ./src/utils/utils.c ./src/tests.c -o tests`
 
-*** Testing ***
+*** TESTING ***
 
 Una vez compilado el archivo de tests de C, ejecutar el archivo ./tests para correr los tests de C.
 
-Para los tests de python, correr `python3 -m pytest src/tests.py`
+Para los tests de python, correr: `python3 -m pytest src/tests.py`
 
-*** DESCRIPCION GENERAL DEL PROYECTO ***
+*** DESCRIPCIÓN GENERAL DEL PROYECTO ***
 
-Estructura de datos utilizadas:
+Estructuras de datos utilizadas:
 
-* palabras_texto: Lista que almacenará las palabras del texto sanitizado, donde el string "-" marca la separación entre las oraciones. En otras palabras, esta lista es el texto sanitizado representado en forma de lista, donde cada posicion es una palabra, y "-" representa la separacion entre las oraciones.
+* palabras_texto: Lista que almacenará las palabras del texto sanitizado, donde el string "-" marca la separación entre las oraciones. En otras palabras, ésta lista es el texto sanitizado representado en forma de lista, donde cada posición es una palabra, y "-" representa la separación entre las oraciones.
 
-* map_palabras: Es un diccionario que tiene como key una palabra del texto sanitizado, en la cual se almacenará como valor una lista de indices donde se encuentra esa palabra en la lista de palabras mencionada anteriormente (palabras_texto).
+* indices_palabras: Es un diccionario que tiene como clave una palabra del texto sanitizado, en la cual se almacenará como valor una lista de índices donde se encuentra esa palabra en palabras_texto.
 
-* apariciones: Es un diccionario que tiene como key una palabra del texto sanitizado, donde el valor será un entero que indique la cantidad de veces que apareció esa palabra durante el proceso de predicción de una frase.
+* apariciones: Es un diccionario que tiene como clave una palabra del texto sanitizado, donde el valor será un entero que indique la cantidad de veces que apareció esa palabra durante el proceso de predicción de una frase.
 
 * predicciones: este será un conjunto donde se irán almacenando las posibles predicciones para una frase.
 
-** Elegi este conjunto de estructuras ya que fue la mas optima (la que menos memoria usó) de todas las demas opciones que probé y además por la simpleza y claridad de trabajo que ofrecían **
+** Elegí este conjunto de estructuras ya que fue el más optimizado (el que menos memoria usó) de todas las demás opciones que probé y además por la simpleza y claridad de código que ofrecían **
 
 *** SOLUCIÓN PROPUESTA ***
 
-La solucion consiste en una serie de pasos procedimentales, a modo de resumen y omitiendo algunos detalles, esto es lo que haría: (como ejemplo tomamos la frase "esto es _ ejemplo")
+La solución consiste en una serie de pasos ordenados. A modo de resumen y omitiendo algunos detalles, ésto es lo que hace el algoritmo: (como ejemplo tomamos la frase "esto es _ ejemplo")
 
-1- El programa comienza analizando las palabras que estan destras de la palabra a predecir, en este caso, toma la palabra "es" y busca en el diccionario de palabras en que posiciones se encuentra dicha palabra.
+1- El programa comienza analizando las palabras que están detrás de la palabra a predecir, en este caso, toma la palabra "es" y busca en indices_palabras en qué índices de palabras_texto se encuentra dicha palabra.
 
-2- A cada posicion le suma 1 (la distancia a la que esta "es" de la palabra a predecir) y busca esos indices en la lista de palabras, obteniendo asi, posibles palabras para completar, almacenandolas en el conjunto predicciones.
+2- A cada índice le suma 1 (la distancia a la que esta "es" de la palabra a predecir) y busca esos índices en palabras_texto, obteniendo así, posibles palabras para completar, las cuales se almacenan en predicciones y apariciones.
 
-3- Luego se hace los mismo con la palabra "esto", pero ahora tomando la distancia 2 y analizando si entre medio de dicha palabra y la posible a predecir no se encuentra un "-", ya que se estaría saliendo de la oración. Luego interseco este conjunto de nuevas palabras con el conjunto predicciones. Si la interseccion es vacia, entonces se queda con las predicciones hechas anteriormente y deja seguir buscando.
+3- Luego se hace los mismo con la palabra "esto", pero ahora tomando distancia = 2 y analizando si entre medio de dicha palabra y la posible a predecir no se encuentra un "-", ya que si esto sucede, la palabra predecida estaría en otra oración. Luego interseco este conjunto de nuevas palabras con el conjunto predicciones. Si la interseccion es vacía, entonces se queda con las predicciones hechas anteriormente y deja de buscar.
 
-4- Si el numero de predicciones resultantes es mayor que 1 y ya no hay mas palabras para analizar, entonces realiza el mismo procedimiento pero con las palabras que están despues de la palabra a predecir, pero trabajando con el conjunto de predicciones ya obtenido anteriormente, siendo éste de mayor importancia que las posibles nuevas predicciones. El objetivo de esto es achicar lo mas posible el conjunto predicciones haciendo interseccion con las nuevas predicciones.
+4- Si el número de predicciones al intersecar es mayor que 1 y ya no hay mas palabras para analizar, entonces realiza el mísmo procedimiento pero con las palabras que están después de la palabra a predecir (ahora a los indices se les resta la distancia), pero trabajando con el conjunto de predicciones ya obtenido anteriormente, siendo éste de mayor importancia que las posibles nuevas predicciones. Ahora el objetivo es achicar lo más posible el conjunto predicciones haciendo intersección con las nuevas predicciones.
 
-5- Una vez terminada la busqueda y teniendo el conjunto de predicciones, si éste tiene más de una prediccion, utilizo el diccionario de apariciones y utilizo la que tenga mas apariciones.
+5- Una vez terminada la búsqueda y teniendo el conjunto de predicciones, utilizo el diccionario de apariciones y elijo la palabra que tenga más apariciones y además esté en el conjunto predicciones. Si en el paso 3 o 4 la intersección de las predicciones es exactamente 1, el algoritmo deja de buscar y declara esa única predicción como la definitiva.
 
-Observacion: como se puede notar, se les está dando mayor importancia a las predicciones obtenidas de palabras anteriores a la que se tiene que predecir. Esa fue una decision importante, pues si fuera otro
+** Caso especial ** Si no se logra encontrar ninguna predicción a partir de las palabras anteriores, entonces se procede con el paso 4 con un conjunto predicciones vacío y una busqueda similar a la mencionada anteriormente.
 
-el orden de importancia, el algoritmo estaria prediciendo cosas diferentes. Tome esta decisión ya que fue la que mejores resultados de prediccion me dió comparado a otras (como por ejemplo que no haya un orden de importancia).
+Observación: como se puede notar, se les está dando mayor importancia a las predicciones obtenidas de palabras anteriores a la que se tiene que predecir. Esa fue una decisión importante, pues si fuera otro el orden de importancia,
+
+el algoritmo estaría dando resultados diferentes. Tomé esta decisión ya que fue la que mejores resultados de predicción me dió comparado a otras (como por ejemplo que no haya un orden de importancia).
