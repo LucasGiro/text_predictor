@@ -32,7 +32,7 @@ La solución consiste en una serie de pasos ordenados. A modo de resumen y omiti
 
 2- A cada índice le suma 1 (la distancia a la que esta "es" de la palabra a predecir) y busca esos índices en palabras_texto, obteniendo así, posibles palabras para completar, las cuales se almacenan en predicciones y apariciones.
 
-3- Luego se hace los mismo con la palabra "esto", pero ahora tomando distancia = 2 y analizando si entre medio de dicha palabra y la posible a predecir no se encuentra un "-", ya que si esto sucede, la palabra predecida estaría en otra oración. Luego interseco este conjunto de nuevas palabras con el conjunto predicciones. Si la interseccion es vacía, entonces se queda con las predicciones hechas anteriormente y deja de buscar.
+3- Luego se hace los mismo con la palabra "esto", pero ahora tomando distancia = 2 y analizando si entre medio de dicha palabra y la posible a predecir no se encuentra un "-", ya que si esto sucede, la palabra predecida estaría en otra oración. Luego interseco este conjunto de nuevas palabras con el conjunto predicciones. Si la intersección es vacía, entonces se queda con las predicciones hechas anteriormente y deja de buscar.
 
 4- Si el número de predicciones al intersecar es mayor que 1 y ya no hay mas palabras para analizar, entonces realiza el mísmo procedimiento pero con las palabras que están después de la palabra a predecir (ahora a los indices se les resta la distancia), pero trabajando con el conjunto de predicciones ya obtenido anteriormente, siendo éste de mayor importancia que las posibles nuevas predicciones. Ahora el objetivo es achicar lo más posible el conjunto predicciones haciendo intersección con las nuevas predicciones.
 

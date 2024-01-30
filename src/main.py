@@ -107,7 +107,7 @@ def backward(indices_palabras: dict, palabras_texto: list[str], palabras_frase: 
             elif interseccion != set():
                 predicciones = interseccion
             else:
-                continuar_busqueda = False
+                continuar_busqueda = True if (indice_predecir == (len(palabras_frase) - 1)) else False ## sigue buscando en el caso que no haya palabras posteriores a la que se tiene que predecir
 
         distancia += 1
         i -= 1
@@ -162,7 +162,7 @@ def predecir(indices_palabras: dict, palabras_texto: list[str], frase_a_predecir
     # busco entre las palabras que estan despues de la que tengo que predecir
     predicciones = forward(indices_palabras, palabras_texto, palabras_frase, indice_predecir, predicciones, apariciones)
 
-    # busco la palabra que mas apariciones tuvo durante el proceso de prediccion y que además este en el conjunto predicciones, luego reemplazo el guion bajo con esa palabra
+    # busco la palabra que mas apariciones tuvo durante el proceso de prediccion y que además este en el conjunto predicciones, luego reemplazo _ con esa palabra
     return frase_a_predecir.replace("_", palabra_con_mas_apariciones(apariciones, predicciones))
 
 def main() -> None:
