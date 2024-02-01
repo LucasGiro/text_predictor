@@ -41,7 +41,6 @@ char *get_texto_sanitizado(char *path) {
     FILE *f = fopen(path, "r");
 
     if (f == NULL) {
-        printf("Hubo un error al abrir el archivo de texto: %s\n", path);
         return NULL;
     }
 
@@ -92,12 +91,15 @@ Archivos *get_archivos(char *folder_name) {
     strcat(command, folder_name);
     strcat(command, " && ls > ../../archivos.txt");
 
-    system(command);
+    int status = system(command);
+
+    if (status) {
+        return NULL;
+    }
 
     FILE *f = fopen("./archivos.txt", "r");
 
     if (f == NULL) {
-        printf("Hubo un error al abrir el listado de archivos textos: %s\n", "./archivos.txt");
         return NULL;
     }
 
