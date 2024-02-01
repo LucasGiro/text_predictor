@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
+#include <stdlib.h>
 #include "utils/utils.h"
 
 void test_es_caracter_valido() {
@@ -17,9 +19,43 @@ void test_es_caracter_valido() {
 
 }
 
+void test_get_texto_sanitizado() {
+
+    char *path_01 = "./src/archivos_para_testing/test01.txt";
+    char *result_01 = get_texto_sanitizado(path_01);
+    char *path_02 = "./src/archivos_para_testing/test02.txt";
+    char *result_02 = get_texto_sanitizado(path_02);
+
+    assert(!strcmp(result_01, "esto es una prueba\nesto es una prueba\nhola mundo\nesto es un test"));
+    assert(!strcmp(result_02, "y entonces y cure mis heridas\nrezo rezo rezo rezo\n"));
+    
+    free(result_01);
+    free(result_02);
+
+}
+
+void test_get_archivos() {
+
+    Archivos *archivos = get_archivos("Diego_Torres");
+    char *nombres[] = {"cantarhastamorir.txt", "coloresperanza.txt", "guapa.txt", "quenomepierda.txt", "tratardeestarmejor.txt"};
+    assert(archivos->cantidad == 5);
+
+    for (int i = 0; i <  archivos->cantidad; i++) {
+        assert(!strcmp(archivos->nombres[i], nombres[i]));
+    }
+
+    destruir_struct_archivos(archivos);
+
+
+}
+
 int main() {
 
     test_es_caracter_valido();
+
+    test_get_texto_sanitizado();
+
+    test_get_archivos();
 
     return 0;
 }
