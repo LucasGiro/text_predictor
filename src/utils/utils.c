@@ -6,6 +6,8 @@
 #define TAMANO_BUFFER_INICIAL 1000
 #define INCREMENTO_REALLOC 1000
 
+/* Archivos: Struct que almacena la cantidad de archivos que tiene un directorio y un array de strings con sus nombres */
+
 typedef struct Archivos {
     int cantidad;
     char **nombres;

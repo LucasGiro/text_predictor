@@ -11,87 +11,100 @@ def test_palabra_con_mas_apariciones():
 def test_es_prediccion_derecha_valida():
     indice_palabra_base = 2
     indice_palabra_predecida = 6
-    map_indices = { 0: 'esto', 1: 'es', 2: 'un', 3: 'caso', 4: 'de', 5: 'test', 6: 'en', 7:'python' }
+    palabras_texto = ['esto', 'es', 'un', 'caso', 'de', 'test', 'en', 'python']
 
-    assert es_prediccion_derecha_valida(indice_palabra_base, indice_palabra_predecida, map_indices) == True
+    assert es_prediccion_derecha_valida(indice_palabra_base, indice_palabra_predecida, palabras_texto) == True
 
     indice_palabra_base = 0
     indice_palabra_predecida = 3
-    map_indices = { 0: 'hola', 1: 'mundo', 2: '-', 3: 'esto', 4: 'es', 5: 'un', 6: 'test' }
+    palabras_texto = ['hola', 'mundo', '-', 'esto', 'es', 'un', 'test']
 
-    assert es_prediccion_derecha_valida(indice_palabra_base, indice_palabra_predecida, map_indices) == False
+    assert es_prediccion_derecha_valida(indice_palabra_base, indice_palabra_predecida, palabras_texto) == False
 
 def test_es_prediccion_izquierda_valida():
     indice_palabra_base = 6
     indice_palabra_predecida = 2
-    map_indices = { 0: 'esto', 1: 'es', 2: 'un', 3: 'caso', 4: 'de', 5: 'test', 6: 'en', 7:'python' }
+    palabras_texto = ['esto', 'es', 'un', 'caso', 'de', 'test', 'en', 'python']
 
-    assert es_prediccion_izquierda_valida(indice_palabra_base, indice_palabra_predecida, map_indices) == True
+    assert es_prediccion_izquierda_valida(indice_palabra_base, indice_palabra_predecida, palabras_texto) == True
 
     indice_palabra_base = 3
     indice_palabra_predecida = 0
-    map_indices = { 0: 'hola', 1: 'mundo', 2: '-', 3: 'esto', 4: 'es', 5: 'un', 6: 'test' }
+    palabras_texto = ['hola', 'mundo', '-', 'esto', 'es', 'un', 'test']
 
-    assert es_prediccion_izquierda_valida(indice_palabra_base, indice_palabra_predecida, map_indices) == False
+    assert es_prediccion_izquierda_valida(indice_palabra_base, indice_palabra_predecida, palabras_texto) == False
 
 def test_get_predicciones_derecha():
-    ## "hoy haremos los casos de test en python manana haremos los de c"
-    ## haremos los casos de _
+    ## texto: "hoy haremos los casos de test en python manana haremos los de c"
+    ## frase a predecir: haremos los casos de _
     palabra = 'casos'
     distancia = 2
-    map_palabras = { 'hoy': [0], 'haremos': [1, 9], 'los': [2, 10], 'casos': [3], 'de': [4, 11], 'test': [5], 'en': [6], 'python': [7], 'manana': [8], 'c': [12] }
-    map_indices = { 0: 'hoy', 1: 'haremos', 2: 'los', 3: 'casos', 4: 'de', 5: 'test', 6: 'en', 7: 'python', 8: 'manana', 9: 'haremos', 10: 'los', 11: 'de', 12: 'c' }
+    indices_palabras = { 'hoy': [0], 'haremos': [1, 9], 'los': [2, 10], 'casos': [3], 'de': [4, 11], 'test': [5], 'en': [6], 'python': [7], 'manana': [8], 'c': [12] }
+    palabras_texto = ['hoy', 'haremos', 'los', 'casos', 'de', 'test', 'en', 'python', 'manana', 'haremos', 'los', 'de', 'c']
     n_palabras = 13
     apariciones = {}
 
-    assert get_predicciones_derecha(palabra, distancia, map_palabras, map_indices, n_palabras, apariciones) == { 'test' }
+    assert get_predicciones_derecha(palabra, distancia, indices_palabras, palabras_texto, n_palabras, apariciones) == { 'test' }
+    assert apariciones['test'] == 1
 
 def test_get_predicciones_izquierda():
     ## "hoy haremos los casos de test en python manana haremos los de c"
-    ## _ los casos
-    palabra = 'casos'
-    distancia = 2
-    map_palabras = { 'hoy': [0], 'haremos': [1, 9], 'los': [2, 10], 'casos': [3], 'de': [4, 11], 'test': [5], 'en': [6], 'python': [7], 'manana': [8], 'c': [12] }
-    map_indices = { 0: 'hoy', 1: 'haremos', 2: 'los', 3: 'casos', 4: 'de', 5: 'test', 6: 'en', 7: 'python', 8: 'manana', 9: 'haremos', 10: 'los', 11: 'de', 12: 'c' }
+    ## _ haremos los casos
+    palabra = 'haremos'
+    distancia = 1
+    indices_palabras = { 'hoy': [0], 'haremos': [1, 9], 'los': [2, 10], 'casos': [3], 'de': [4, 11], 'test': [5], 'en': [6], 'python': [7], 'manana': [8], 'c': [12] }
+    palabras_texto = ['hoy', 'haremos', 'los', 'casos', 'de', 'test', 'en', 'python', 'manana', 'haremos', 'los', 'de', 'c']
     apariciones = {}
 
-    assert get_predicciones_izquierda(palabra, distancia, map_palabras, map_indices, apariciones) == { 'haremos' }
+    assert get_predicciones_izquierda(palabra, distancia, indices_palabras, palabras_texto, apariciones) == { 'hoy', 'manana' }
+    assert apariciones['hoy'] == 1
+    assert apariciones['manana'] == 1
 
 def test_backward():
     palabras = ['_', 'los', 'casos']
     indice_predecir = 0
     n_palabras = 13
     apariciones = {}
-    map_palabras = { 'hoy': [0], 'haremos': [1, 9], 'los': [2, 10], 'casos': [3], 'de': [4, 11], 'test': [5], 'en': [6], 'python': [7], 'manana': [8], 'c': [12] }
-    map_indices = { 0: 'hoy', 1: 'haremos', 2: 'los', 3: 'casos', 4: 'de', 5: 'test', 6: 'en', 7: 'python', 8: 'manana', 9: 'haremos', 10: 'los', 11: 'de', 12: 'c' }
+    indices_palabras = { 'hoy': [0], 'haremos': [1, 9], 'los': [2, 10], 'casos': [3], 'de': [4, 11], 'test': [5], 'en': [6], 'python': [7], 'manana': [8], 'c': [12] }
+    palabras_texto = ['hoy', 'haremos', 'los', 'casos', 'de', 'test', 'en', 'python', 'manana', 'haremos', 'los', 'de', 'c']
 
-    assert backward(map_palabras, map_indices, palabras, indice_predecir, n_palabras, apariciones) == set()
+    assert backward(indices_palabras, palabras_texto, palabras, indice_predecir, n_palabras, apariciones) == set()
 
     palabras = ['haremos', 'los', 'casos', 'de', '_']
     indice_predecir = 4
 
-    assert backward(map_palabras, map_indices, palabras, indice_predecir, n_palabras, apariciones) == { 'test' }
+    assert backward(indices_palabras, palabras_texto, palabras, indice_predecir, n_palabras, apariciones) == { 'test' }
+
+    palabras = ['hoy', 'haremos', '_', 'de']
+    indice_predecir = 2
+
+    assert backward(indices_palabras, palabras_texto, palabras, indice_predecir, n_palabras, apariciones) == { 'los' }
 
 def test_forward():
     palabras = ['_', 'los', 'casos']
     indice_predecir = 0
     apariciones = {}
-    map_palabras = { 'hoy': [0], 'haremos': [1, 9], 'los': [2, 10], 'casos': [3], 'de': [4, 11], 'test': [5], 'en': [6], 'python': [7], 'manana': [8], 'c': [12] }
-    map_indices = { 0: 'hoy', 1: 'haremos', 2: 'los', 3: 'casos', 4: 'de', 5: 'test', 6: 'en', 7: 'python', 8: 'manana', 9: 'haremos', 10: 'los', 11: 'de', 12: 'c' }
+    indices_palabras = { 'hoy': [0], 'haremos': [1, 9], 'los': [2, 10], 'casos': [3], 'de': [4, 11], 'test': [5], 'en': [6], 'python': [7], 'manana': [8], 'c': [12] }
+    palabras_texto = ['hoy', 'haremos', 'los', 'casos', 'de', 'test', 'en', 'python', 'manana', 'haremos', 'los', 'de', 'c']
     predicciones = set()
 
-    assert forward(map_palabras, map_indices, palabras, indice_predecir, predicciones, apariciones) == { 'haremos' }
+    assert forward(indices_palabras, palabras_texto, palabras, indice_predecir, predicciones, apariciones) == { 'haremos' }
 
     palabras = ['haremos', 'los', 'casos', 'de', '_']
     indice_predecir = 4
 
-    assert forward(map_palabras, map_indices, palabras, indice_predecir, predicciones ,apariciones) == set()
+    assert forward(indices_palabras, palabras_texto, palabras, indice_predecir, predicciones ,apariciones) == set()
+
+    palabras = ['_', 'haremos', 'los']
+    indice_predecir = 0
+
+    assert forward(indices_palabras, palabras_texto, palabras, indice_predecir, predicciones ,apariciones) == { 'hoy', 'manana' }
 
 
 def test_predecir():
-    map_palabras = { 'hoy': [0], 'haremos': [1, 9], 'los': [2, 10], 'casos': [3], 'de': [4, 11], 'test': [5], 'en': [6], 'python': [7], 'manana': [8], 'c': [12] }
-    map_indices = { 0: 'hoy', 1: 'haremos', 2: 'los', 3: 'casos', 4: 'de', 5: 'test', 6: 'en', 7: 'python', 8: 'manana', 9: 'haremos', 10: 'los', 11: 'de', 12: 'c' }
+    indices_palabras = { 'hoy': [0], 'haremos': [1, 9], 'los': [2, 10], 'casos': [3], 'de': [4, 11], 'test': [5], 'en': [6], 'python': [7], 'manana': [8], 'c': [12] }
+    palabras_texto = ['hoy', 'haremos', 'los', 'casos', 'de', 'test', 'en', 'python', 'manana', 'haremos', 'los', 'de', 'c']
     n_palabras = 13
     frase_a_predecir = "haremos los casos de _"
 
-    assert predecir(map_palabras, map_indices, frase_a_predecir, n_palabras) == "haremos los casos de test"
+    assert predecir(indices_palabras, palabras_texto, frase_a_predecir, n_palabras) == "haremos los casos de test"
