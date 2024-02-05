@@ -53,9 +53,9 @@ Si no se logra encontrar ninguna predicción a partir de las palabras anteriores
 
 ### Solución Propuesta para Leer y Sanitizar los Textos
 
-Por cada archivo .txt que lee el programa, éste guarda su contenido sanitizado en memoria y luego lo vuelca en el archivo de salida .txt.
-Para esto, usé memoria dinámica, pidiendo al sistema operativo a medida que el programa necesitara más para poder seguir almacenando el texto. Usé este 
-enfoque ya que permite manejar archivos de tamaño aleatorio y muy grandes, a la vez que utiliza solo la cantidad de memoria necesaria (puede sobrar un poco, pero es una cantidad muy pequeña).
+Por cada archivo .txt que lee el programa, éste guarda su contenido sanitizado en memoria y luego lo vuelca en el archivo de salida .txt. Para esto, usé memoria dinámica, pidiendo al sistema operativo a medida que el programa necesitara más para poder seguir almacenando el texto. 
+
+Usé este enfoque ya que permite manejar archivos de tamaño aleatorio y muy grandes, a la vez que utiliza solo la cantidad de memoria necesaria (puede sobrar un poco, pero es una cantidad muy pequeña).
 Además, volcar todo el texto sanitizado de una sola vez realiza menos llamadas de escritura al disco del equipo, haciendo que este enfoce sea más rápido que ir leyendo y escribiendo al mismo tiempo.
 
 **Estudiante: Lucas Giro**
