@@ -27,17 +27,17 @@ Para los tests de python, correr: `python3 -m pytest src/tests.py`.
 - **apariciones:** Es un diccionario que tiene como clave una palabra del texto sanitizado, donde el valor será un entero que indique la cantidad de veces que apareció esa palabra durante el proceso de predicción de una frase.
 - **predicciones:** Conjunto donde se irán almacenando las posibles predicciones para una frase.
 
-**Elegí este conjunto de estructuras ya que fue el más optimizado (el que menos memoria usó) de todas las demás opciones que probé y además por la simpleza de resolución que ofrecía para el problema.**
+**Elegí este conjunto de estructuras ya que fue el más optimizado (el que menos memoria usó) de todas las demás opciones que probé y además por la simpleza de resolución que ofrecían para el problema.**
 
 ### Solución Propuesta
 
 La solución consiste en una serie de pasos ordenados. A modo de resumen y omitiendo algunos detalles, ésto es lo que hace el algoritmo: (como ejemplo tomamos la frase "esto es _ ejemplo")
 
 1. El programa comienza analizando las palabras que están detrás de la palabra a predecir, en este caso, toma la palabra "es" y busca en indices_palabras en qué índices de palabras_texto se encuentra dicha palabra.
-2. A cada índice le suma 1 (la distancia a la que esta "es" de la palabra a predecir) y busca esos índices en palabras_texto, obteniendo así, posibles palabras para completar, las cuales se almacenan en predicciones y apariciones.
+2. A cada índice le suma 1 (la distancia a la que esta "es" de la palabra a predecir) y busca esos índices en palabras_texto, obteniendo así, posibles palabras para completar, las cuales se almacenarán en predicciones y apariciones.
 3. Luego se hace lo mismo con la palabra "esto", pero ahora tomando distancia = 2 y analizando si entre medio de dicha palabra y la posible a predecir no se encuentra un "-", ya que si esto sucede, la palabra predecida estaría en otra oración. Luego interseco este conjunto de nuevas palabras con el conjunto predicciones. Si la intersección es vacía, entonces se queda con las predicciones hechas anteriormente y deja de buscar.
-4. Si el número de predicciones al intersecar es mayor que 1 y ya no hay mas palabras para analizar, entonces realiza el mísmo procedimiento pero con las palabras que están adelante de la palabra a predecir (ahora a los indices se les resta la distancia), pero trabajando con el conjunto de predicciones ya obtenido anteriormente, siendo éste de mayor importancia que las posibles nuevas predicciones. Ahora el objetivo es achicar lo más posible el conjunto predicciones haciendo intersección con las nuevas palabras predecidas.
-5. Una vez terminada la búsqueda y teniendo el conjunto de predicciones, utilizo el diccionario de apariciones y elijo la palabra que tenga más apariciones y además esté en el conjunto predicciones. Si en el paso 3 o 4 la intersección de las predicciones es exactamente 1, el algoritmo deja de buscar y declara esa única predicción como la definitiva.
+4. Si el número de predicciones al intersecar es mayor que 1 y ya no hay más palabras para analizar, entonces realiza el mísmo procedimiento pero con las palabras que están adelante de la palabra a predecir (ahora a los indices se les resta la distancia), pero trabajando con el conjunto de predicciones ya obtenido anteriormente, siendo éste de mayor importancia que las posibles nuevas predicciones. Ahora el objetivo es achicar lo más posible el conjunto predicciones haciendo intersección con las nuevas palabras predecidas.
+5. Una vez terminada la búsqueda y teniendo el conjunto de predicciones, utilizo el diccionario de apariciones y elijo la palabra con mayor número de apariciones y que además esté en el conjunto predicciones. Si en el paso 3 o 4 la intersección de las predicciones es exactamente 1, el algoritmo deja de buscar y declara esa única predicción como la definitiva.
 
 ### Caso Especial
 
