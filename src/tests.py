@@ -2,11 +2,22 @@ from main import palabra_con_mas_apariciones, backward, es_prediccion_derecha_va
 
 def test_palabra_con_mas_apariciones():
 
-    apariciones = { 'programa': 4, 'python': 1, 'aplicacion': 2, 'sistema':3 }
+    apariciones = { 'programa': 4, 'python': 1, 'aplicacion': 2, 'sistema': 3 }
     predicciones = set()
     predicciones.update(['programa', 'sistema'])
 
     assert palabra_con_mas_apariciones(apariciones, predicciones) == 'programa'
+
+    apariciones = { 'programa': 1, 'python': 4, 'aplicacion': 3, 'sistema': 2 }
+    predicciones = set()
+    predicciones.update(['programa', 'sistema'])
+
+    assert palabra_con_mas_apariciones(apariciones, predicciones) == 'sistema'
+
+    apariciones = {}
+    predicciones = set()
+
+    assert palabra_con_mas_apariciones(apariciones, predicciones) == ''
 
 def test_es_prediccion_derecha_valida():
     indice_palabra_base = 2
@@ -17,6 +28,18 @@ def test_es_prediccion_derecha_valida():
 
     indice_palabra_base = 0
     indice_palabra_predecida = 3
+    palabras_texto = ['hola', 'mundo', '-', 'esto', 'es', 'un', 'test']
+
+    assert es_prediccion_derecha_valida(indice_palabra_base, indice_palabra_predecida, palabras_texto) == False
+
+    indice_palabra_base = 2
+    indice_palabra_predecida = 4
+    palabras_texto = ['hola', 'mundo', '-', 'esto', 'es', 'un', 'test']
+
+    assert es_prediccion_derecha_valida(indice_palabra_base, indice_palabra_predecida, palabras_texto) == True
+
+    indice_palabra_base = 0
+    indice_palabra_predecida = 2
     palabras_texto = ['hola', 'mundo', '-', 'esto', 'es', 'un', 'test']
 
     assert es_prediccion_derecha_valida(indice_palabra_base, indice_palabra_predecida, palabras_texto) == False
@@ -34,6 +57,12 @@ def test_es_prediccion_izquierda_valida():
 
     assert es_prediccion_izquierda_valida(indice_palabra_base, indice_palabra_predecida, palabras_texto) == False
 
+    indice_palabra_base = 4
+    indice_palabra_predecida = 2
+    palabras_texto = ['hola', 'mundo', '-', 'esto', 'es', 'un', 'test']
+
+    assert es_prediccion_izquierda_valida(indice_palabra_base, indice_palabra_predecida, palabras_texto) == False
+
 def test_get_predicciones_derecha():
     ## texto: "hoy haremos los casos de test en python manana haremos los de c"
     ## frase a predecir: haremos los casos de _
@@ -47,6 +76,14 @@ def test_get_predicciones_derecha():
     assert get_predicciones_derecha(palabra, distancia, indices_palabras, palabras_texto, n_palabras, apariciones) == { 'test' }
     assert apariciones['test'] == 1
 
+    palabra = 'de'
+    distancia = 1
+    apariciones = {}
+
+    assert get_predicciones_derecha(palabra, distancia, indices_palabras, palabras_texto, n_palabras, apariciones) == { 'test', 'c' }
+    assert apariciones['test'] == 1
+    assert apariciones['c'] == 1
+
 def test_get_predicciones_izquierda():
     ## "hoy haremos los casos de test en python manana haremos los de c"
     ## _ haremos los casos
@@ -59,6 +96,14 @@ def test_get_predicciones_izquierda():
     assert get_predicciones_izquierda(palabra, distancia, indices_palabras, palabras_texto, apariciones) == { 'hoy', 'manana' }
     assert apariciones['hoy'] == 1
     assert apariciones['manana'] == 1
+
+    palabra = 'de'
+    distancia = 1
+    apariciones = {}
+
+    assert get_predicciones_izquierda(palabra, distancia, indices_palabras, palabras_texto, apariciones) == { 'los', 'casos' }
+    assert apariciones['los'] == 1
+    assert apariciones['casos'] == 1
 
 def test_backward():
     palabras = ['_', 'los', 'casos']
@@ -108,3 +153,7 @@ def test_predecir():
     frase_a_predecir = "haremos los casos de _"
 
     assert predecir(indices_palabras, palabras_texto, frase_a_predecir, n_palabras) == "haremos los casos de test"
+
+    frase_a_predecir = "hola _"
+
+    assert predecir(indices_palabras, palabras_texto, frase_a_predecir, n_palabras) == "hola "
