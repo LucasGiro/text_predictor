@@ -43,7 +43,9 @@ La solución consiste en una serie de pasos ordenados. A modo de resumen y omiti
 
 Si no se logra encontrar ninguna predicción a partir de las palabras anteriores, entonces se procede con el paso 4 con un conjunto predicciones vacío y una busqueda similar a la mencionada anteriormente.
 
-**Observación**: como se puede notar, se les está dando mayor importancia a las predicciones obtenidas de palabras anteriores a la que se tiene que predecir. Esa fue una decisión importante, pues si fuera otro el orden de importancia, el algoritmo estaría dando resultados diferentes. Tomé esta decisión ya que fue la que mejores resultados de predicción me dió comparado a otras (como por ejemplo que no haya un orden de importancia).
+**Observación**: como se puede notar, se les está dando mayor importancia a las predicciones obtenidas de palabras anteriores a la que se tiene que predecir. Esa fue una decisión importante, pues si fuera otro el orden de importancia, el algoritmo estaría dando resultados diferentes. 
+
+Tomé esta decisión ya que fue la que mejores resultados de predicción me dió comparado a otras (como por ejemplo que no haya un orden de importancia).
 
 ## C
 
