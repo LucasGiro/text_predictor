@@ -1,6 +1,5 @@
-texto1.txt
-texto2.txt
-texto3.txt
-texto4.txt
-texto5.txt
-texto6.txt
+cantarhastamorir.txt
+coloresperanza.txt
+guapa.txt
+quenomepierda.txt
+tratardeestarmejor.txt
