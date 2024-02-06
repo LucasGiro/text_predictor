@@ -52,13 +52,16 @@ def es_prediccion_izquierda_valida(indice_palabra_base: int, indice_palabra_pred
 def get_predicciones_derecha(palabra: str, distancia: int, indices_palabras: dict, palabras_texto: list[str], n_palabras: int, apariciones: dict) -> set:
     predicciones = set()
 
-    for i in indices_palabras[palabra]:
-        if (i+distancia) < n_palabras and es_prediccion_derecha_valida(i, i+distancia, palabras_texto):
-            predicciones.add(palabras_texto[i+distancia])
-            if palabras_texto[i+distancia] in apariciones:
-                apariciones[palabras_texto[i+distancia]] += 1
+    for indice_palabra_base in indices_palabras[palabra]:
+
+        indice_palabra_predecida = indice_palabra_base + distancia
+
+        if (indice_palabra_predecida) < n_palabras and es_prediccion_derecha_valida(indice_palabra_base, indice_palabra_predecida, palabras_texto):
+            predicciones.add(palabras_texto[indice_palabra_predecida])
+            if palabras_texto[indice_palabra_predecida] in apariciones:
+                apariciones[palabras_texto[indice_palabra_predecida]] += 1
             else:
-                apariciones[palabras_texto[i+distancia]] = 1    
+                apariciones[palabras_texto[indice_palabra_predecida]] = 1    
 
     return predicciones
 
@@ -70,13 +73,16 @@ def get_predicciones_derecha(palabra: str, distancia: int, indices_palabras: dic
 def get_predicciones_izquierda(palabra: str, distancia: int, indices_palabras: dict, palabras_texto: list[str], apariciones: dict) -> set:
     predicciones = set()
 
-    for i in indices_palabras[palabra]:
-        if (i-distancia) >= 0 and es_prediccion_izquierda_valida(i, i-distancia, palabras_texto):
-            predicciones.add(palabras_texto[i-distancia])
-            if palabras_texto[i-distancia] in apariciones:
-                apariciones[palabras_texto[i-distancia]] += 1
+    for indice_palabra_base in indices_palabras[palabra]:
+
+        indice_palabra_predecida = indice_palabra_base - distancia
+
+        if (indice_palabra_predecida) >= 0 and es_prediccion_izquierda_valida(indice_palabra_base, indice_palabra_predecida, palabras_texto):
+            predicciones.add(palabras_texto[indice_palabra_predecida])
+            if palabras_texto[indice_palabra_predecida] in apariciones:
+                apariciones[palabras_texto[indice_palabra_predecida]] += 1
             else:
-                apariciones[palabras_texto[i-distancia]] = 1
+                apariciones[palabras_texto[indice_palabra_predecida]] = 1
 
     return predicciones
 
