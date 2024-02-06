@@ -7,8 +7,8 @@ int main(int argc, char **argv) {
 
     Archivos *archivos = get_archivos(argv[1]);
 
-    if (archivos == NULL) {
-        printf("ERROR: No existe el directorio %s\n", argv[1]);
+    if (archivos == NULL || archivos->cantidad == 0) {
+        printf("ERROR: Verifique que exista el directorio %s y que contenga al menos un texto\n", argv[1]);
         return 1;
     }
 
