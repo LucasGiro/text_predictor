@@ -7,8 +7,8 @@ def palabra_con_mas_apariciones(apariciones: dict, predicciones: set) -> str:
 
     resultado = ("", 0)
 
-    for p in apariciones:
-        if apariciones[p] > resultado[1] and p in predicciones:
+    for p in predicciones:
+        if apariciones[p] > resultado[1]:
             resultado = (p, apariciones[p])
 
     return resultado[0]
@@ -167,8 +167,10 @@ def predecir(indices_palabras: dict, palabras_texto: list[str], frase_a_predecir
 
     # busco entre las palabras que estan antes de la que tengo que predecir
     predicciones = backward(indices_palabras, palabras_texto, palabras_frase, indice_predecir, n_palabras, apariciones)
-    # busco entre las palabras que estan despues de la que tengo que predecir
-    predicciones = forward(indices_palabras, palabras_texto, palabras_frase, indice_predecir, predicciones, apariciones)
+
+    if (predicciones == set() or len(predicciones) > 1):
+        # busco entre las palabras que estan despues de la que tengo que predecir
+        predicciones = forward(indices_palabras, palabras_texto, palabras_frase, indice_predecir, predicciones, apariciones)
 
     # busco la palabra que mas apariciones tuvo durante el proceso de prediccion y que además este en el conjunto predicciones, luego reemplazo _ con esa palabra
     return frase_a_predecir.replace("_", palabra_con_mas_apariciones(apariciones, predicciones))
