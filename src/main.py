@@ -196,7 +196,12 @@ def main() -> None:
         else:
             indices_palabras[palabras_texto[i]] = [i]
 
-    archivo_frases = open('./Frases/' + sys.argv[1] + ".txt", 'r')
+    try:
+        archivo_frases = open('./Frases/' + sys.argv[1] + ".txt", 'r')
+    except:
+        print("No se ha encontrado el archivo " + sys.argv[1] + ".txt en el directorio ./Frases")
+        exit(1)
+
     frases = archivo_frases.readlines()
     archivo_frases.close()
 
