@@ -29,7 +29,7 @@ void test_get_texto_sanitizado() {
     char *result_03 = get_texto_sanitizado(path_03);
 
     assert(!strcmp(result_01, "esto es una prueba\nesto es una prueba\nhola mundo\nesto es un test"));
-    assert(!strcmp(result_02, "y entonces y cure mis heridas\nrezo rezo rezo rezo\n"));
+    assert(!strcmp(result_02, "y entonces y cure mis heridas\nrezo rezo rezo rezo\ny entonces\nrezo\npor vos\n"));
     assert(!strcmp(result_03, "esto es un texto para probar \nprobando el sanitizador de texto\ntesteando el sanitizador de texto \n"));
     
     free(result_01);
