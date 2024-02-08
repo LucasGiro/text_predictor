@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    char output_file_path[200] = "./Entradas/";
+    char output_file_path[250] = "./Entradas/";
     strcat(output_file_path, argv[1]);
     strcat(output_file_path, ".txt");
 
@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
 
     for (int i = 0; i < archivos->cantidad; i++) {
 
-        char path[250] = "./Textos/";
+        char path[300] = "./Textos/";
         strcat(path, argv[1]);
         strcat(path, "/");
         strcat(path, archivos->nombres[i]);
@@ -51,7 +51,7 @@ int main(int argc, char **argv) {
 
     printf("completando frases...\n");
 
-    char command[100] = "python3 src/main.py ";
+    char command[200] = "python3 src/main.py ";
     strcat(command, argv[1]);
 
     int status = system(command);

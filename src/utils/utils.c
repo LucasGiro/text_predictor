@@ -88,7 +88,7 @@ char *get_texto_sanitizado(char *path) {
 
 Archivos *get_archivos(char *folder_name) {
 
-    char command[250] = "cd ";
+    char command[300] = "cd ";
     strcat(command, "./Textos/");
     strcat(command, folder_name);
     strcat(command, " && ls > ../../archivos.txt");
@@ -128,6 +128,7 @@ Archivos *get_archivos(char *folder_name) {
         } else {
             archivos->nombres[numero_de_linea][i] = '\0';
             i = 0;
+            text_size = 50;
             numero_de_linea++;
             archivos->nombres = realloc(archivos->nombres, sizeof(char*) * (numero_de_linea + 1));
             archivos->nombres[numero_de_linea] = malloc(sizeof(char) * 50); // cuando se llegue a EOF, esta asignacion hara que sobre un bloque de memoria

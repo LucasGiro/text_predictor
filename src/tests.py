@@ -106,44 +106,44 @@ def test_get_predicciones_izquierda():
     assert apariciones['casos'] == 1
 
 def test_backward():
-    palabras = ['_', 'los', 'casos']
+    palabras_frase = ['_', 'los', 'casos']
     indice_predecir = 0
     n_palabras = 13
     apariciones = {}
     indices_palabras = { 'hoy': [0], 'haremos': [1, 9], 'los': [2, 10], 'casos': [3], 'de': [4, 11], 'test': [5], 'en': [6], 'python': [7], 'manana': [8], 'c': [12] }
     palabras_texto = ['hoy', 'haremos', 'los', 'casos', 'de', 'test', 'en', 'python', 'manana', 'haremos', 'los', 'de', 'c']
 
-    assert backward(indices_palabras, palabras_texto, palabras, indice_predecir, n_palabras, apariciones) == set()
+    assert backward(indices_palabras, palabras_texto, palabras_frase, indice_predecir, n_palabras, apariciones) == set()
 
-    palabras = ['haremos', 'los', 'casos', 'de', '_']
+    palabras_frase = ['haremos', 'los', 'casos', 'de', '_']
     indice_predecir = 4
 
-    assert backward(indices_palabras, palabras_texto, palabras, indice_predecir, n_palabras, apariciones) == { 'test' }
+    assert backward(indices_palabras, palabras_texto, palabras_frase, indice_predecir, n_palabras, apariciones) == { 'test' }
 
-    palabras = ['hoy', 'haremos', '_', 'de']
+    palabras_frase = ['hoy', 'haremos', '_', 'de']
     indice_predecir = 2
 
-    assert backward(indices_palabras, palabras_texto, palabras, indice_predecir, n_palabras, apariciones) == { 'los' }
+    assert backward(indices_palabras, palabras_texto, palabras_frase, indice_predecir, n_palabras, apariciones) == { 'los' }
 
 def test_forward():
-    palabras = ['_', 'los', 'casos']
+    palabras_frase = ['_', 'los', 'casos']
     indice_predecir = 0
     apariciones = {}
     indices_palabras = { 'hoy': [0], 'haremos': [1, 9], 'los': [2, 10], 'casos': [3], 'de': [4, 11], 'test': [5], 'en': [6], 'python': [7], 'manana': [8], 'c': [12] }
     palabras_texto = ['hoy', 'haremos', 'los', 'casos', 'de', 'test', 'en', 'python', 'manana', 'haremos', 'los', 'de', 'c']
     predicciones = set()
 
-    assert forward(indices_palabras, palabras_texto, palabras, indice_predecir, predicciones, apariciones) == { 'haremos' }
+    assert forward(indices_palabras, palabras_texto, palabras_frase, indice_predecir, predicciones, apariciones) == { 'haremos' }
 
-    palabras = ['haremos', 'los', 'casos', 'de', '_']
+    palabras_frase = ['haremos', 'los', 'casos', 'de', '_']
     indice_predecir = 4
 
-    assert forward(indices_palabras, palabras_texto, palabras, indice_predecir, predicciones ,apariciones) == set()
+    assert forward(indices_palabras, palabras_texto, palabras_frase, indice_predecir, predicciones ,apariciones) == set()
 
-    palabras = ['_', 'haremos', 'los']
+    palabras_frase = ['_', 'haremos', 'los']
     indice_predecir = 0
 
-    assert forward(indices_palabras, palabras_texto, palabras, indice_predecir, predicciones ,apariciones) == { 'hoy', 'manana' }
+    assert forward(indices_palabras, palabras_texto, palabras_frase, indice_predecir, predicciones ,apariciones) == { 'hoy', 'manana' }
 
 
 def test_predecir():
