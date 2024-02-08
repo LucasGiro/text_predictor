@@ -12,7 +12,7 @@ gcc ./src/utils/utils.c ./src/tests.c -o tests
 
 # Ejecución y Testing
 
-Para ejecutar el programa ya compilado, correr: `./main NOMBRE_DIRECTORIO_TEXTOS` .
+Para ejecutar el programa, correr: `./main NOMBRE_DIRECTORIO_TEXTOS` .
 
 Una vez compilado el archivo de tests, ejecutar el archivo `./tests` para correr los tests de C.
 
