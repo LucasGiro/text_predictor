@@ -10,9 +10,11 @@ Para compilar el archivo de tests de C, correr:
 gcc ./src/utils/utils.c ./src/tests.c -o tests
 ```
 
-# Testing
+# Ejecución y Testing
 
-Una vez compilado el archivo de tests de C, ejecutar el archivo `./tests` para correr los tests de C.
+Para ejecutar el programa ya compilado, correr: `./main NOMBRE_DIRECTORIO_TEXTOS` .
+
+Una vez compilado el archivo de tests, ejecutar el archivo `./tests` para correr los tests de C.
 
 Para los tests de python, correr: `python3 -m pytest src/tests.py`.
 
@@ -45,7 +47,7 @@ Si no se logra encontrar ninguna predicción a partir de las palabras anteriores
 
 **Observación**: como se puede notar, se les está dando mayor importancia a las predicciones obtenidas de palabras anteriores a la que se tiene que predecir. Esa fue una decisión importante, pues si fuera otro el orden de importancia, el algoritmo estaría dando resultados diferentes. 
 
-Tomé esta decisión ya que fue la que mejores resultados de predicción me dió comparado a otras (como por ejemplo que no haya un orden de importancia).
+Tomé esta decisión ya que fue la que mejores resultados de predicción me dió comparado a otras (como por ejemplo que no haya un orden de importancia o que sean más importantes las que proceden a la palabra a predecir).
 
 ## C
 
