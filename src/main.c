@@ -5,6 +5,11 @@
 
 int main(int argc, char **argv) {
 
+    if (argc == 1) {
+        printf("No se ha ingresado ningun argumento\n");
+        return 0;
+    }
+
     Archivos *archivos = get_archivos(argv[1]);
 
     if (archivos == NULL || archivos->cantidad == 0) {
